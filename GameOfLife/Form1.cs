@@ -49,7 +49,7 @@ namespace GameOfLife
             int mWidth = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
             int mHeight = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
 
-
+            
             for (int x = 0; x < mSpace.GetLength(0); x++)
             {
                 for (int y = 0; y < mSpace.GetLength(1); y++)
