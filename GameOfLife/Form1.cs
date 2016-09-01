@@ -27,7 +27,7 @@ namespace GameOfLife
         private void Timer_Tick(object sender, EventArgs e)
         {
             // NewGeneration
-
+            //check
             mGenerations++;
 
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString();
