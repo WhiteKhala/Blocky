@@ -27,7 +27,7 @@ namespace GameOfLife
         private void Timer_Tick(object sender, EventArgs e)
         {
             // NewGeneration
-            //check
+
             mGenerations++;
 
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString();
@@ -42,8 +42,8 @@ namespace GameOfLife
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
-            Pen mEpipen = new Pen(Color.Red, 1);
-            Brush mLiveCellBrush = new SolidBrush(Color.Blue);
+            Pen mEpipen = new Pen(Color.Black, 1);
+            Brush mLiveCellBrush = new SolidBrush(Color.Green);
 
             //Gotta switch to floats
             int mWidth = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
@@ -95,6 +95,10 @@ namespace GameOfLife
             }
         }
 
-
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox1 blg = new AboutBox1();
+            blg.ShowDialog();
+        }
     }
 }
