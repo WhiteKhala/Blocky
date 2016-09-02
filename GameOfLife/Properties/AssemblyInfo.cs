@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("GameOfLife")]
 [assembly: AssemblyDescription("Portfolio I Project \n           Emanuel Antablin \n leantablin@protonmail.com \n (321)394-1660")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Freelancer")]
 [assembly: AssemblyProduct("GameOfLife")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]

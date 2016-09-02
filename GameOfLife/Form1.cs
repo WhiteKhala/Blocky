@@ -15,24 +15,27 @@ namespace GameOfLife
         bool[,] mSpace = new bool[25, 25];
         Timer mCount = new Timer();
         int mGenerations = 0;
-        
+        int mCellCount = 0;
         public Form1()
         {
             InitializeComponent();
             mCount.Enabled = true;
             mCount.Interval = 30;
             mCount.Tick += Timer_Tick;
+
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
             // NewGeneration
 
-            mGenerations++;
+            //mGenerations++;
+            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+                                           "      Seed: " /* + mSeed */+ "       Boundary: " /*+ mBoundary + */;
 
-            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString();
 
             graphicsPanel1.Invalidate();
+
         }
 
         private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -63,6 +66,7 @@ namespace GameOfLife
                     if (mSpace[x,y] == true)
                     {
                         e.Graphics.FillRectangle(mLiveCellBrush, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
+                        
                     }
 
                     e.Graphics.DrawRectangle(mEpipen, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
@@ -92,6 +96,9 @@ namespace GameOfLife
                 mSpace[x, y] = !mSpace[x, y];
 
                 graphicsPanel1.Invalidate();
+                mCellCount++;
+                //Have to add a condition so that if you "unclick" a box cellcount is lowered
+
             }
         }
 
@@ -99,6 +106,21 @@ namespace GameOfLife
         {
             AboutBox1 blg = new AboutBox1();
             blg.ShowDialog();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void toolStripStatusLabelGen_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cutToolStripButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
