@@ -86,17 +86,28 @@ namespace GameOfLife
         {
             if (e.Button == MouseButtons.Left)
             {
+                
                 // Do math as floats
                 int width = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
                 int height = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
 
                 int x = e.X / width;
                 int y = e.Y / height;
+                if (mSpace[x, y] == false)
+                {
+                    mSpace[x, y] = !mSpace[x, y];
+                    graphicsPanel1.Invalidate();
+                    mCellCount++;
+                }
 
-                mSpace[x, y] = !mSpace[x, y];
+                else if (mSpace[x, y] == true)
+                {
+                    mSpace[x, y] = !mSpace[x, y];
+                    graphicsPanel1.Invalidate();
+                    mCellCount--;
+                }
 
-                graphicsPanel1.Invalidate();
-                mCellCount++;
+
                 //Have to add a condition so that if you "unclick" a box cellcount is lowered
 
             }
@@ -119,6 +130,70 @@ namespace GameOfLife
         }
 
         private void cutToolStripButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void importToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void helpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutBox1 blg = new AboutBox1();
+            blg.ShowDialog();
+        }
+
+        private void gridVisibleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (gridVisibleToolStripMenuItem.Checked == true)
+            {
+                gridVisibleToolStripMenuItem.Checked = false;
+            }
+
+            else if (gridVisibleToolStripMenuItem.Checked == false)
+            {
+                gridVisibleToolStripMenuItem.Checked = true;
+            }
+        }
+
+        private void headsUpVisibleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (headsUpVisibleToolStripMenuItem.Checked == true)
+            {
+                headsUpVisibleToolStripMenuItem.Checked = false;
+            }
+
+            else if (headsUpVisibleToolStripMenuItem.Checked == false)
+            {
+                headsUpVisibleToolStripMenuItem.Checked = true;
+            }
+        }
+
+        private void neighborCountVisibleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (neighborCountVisibleToolStripMenuItem.Checked == true)
+            {
+                neighborCountVisibleToolStripMenuItem.Checked = false;
+            }
+
+            else if (neighborCountVisibleToolStripMenuItem.Checked == false)
+            {
+                neighborCountVisibleToolStripMenuItem.Checked = true;
+            }
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
