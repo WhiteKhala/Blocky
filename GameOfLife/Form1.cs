@@ -16,6 +16,7 @@ namespace GameOfLife
         Timer mCount = new Timer();
         int mGenerations = 0;
         int mCellCount = 0;
+        int mSeed = 0;
         public Form1()
         {
             InitializeComponent();
@@ -31,7 +32,7 @@ namespace GameOfLife
 
             //mGenerations++;
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-                                           "      Seed: " /* + mSeed */+ "       Boundary: " /*+ mBoundary + */;
+                                           "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
 
 
             graphicsPanel1.Invalidate();
@@ -131,6 +132,7 @@ namespace GameOfLife
 
         private void cutToolStripButton_Click(object sender, EventArgs e)
         {
+            MoveGeneration();
 
         }
 
@@ -196,6 +198,155 @@ namespace GameOfLife
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void randomizeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            //if (sender.Equals((object) fromTimeToolStripMenuItem1)
+            //{
+            //    seed = new Random().Next();
+
+            //}
+        }
+
+        private void fromTimeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MoveGeneration()
+        {
+            mGenerations++;
+            int mFamily = 0;
+            int width = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
+            int height = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int ii = 0; ii < height; ii++)
+                {
+                    if (mSpace[i, ii] == true)
+                    {
+                        if (mSpace[i - 1, ii - 1] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i, ii - 1] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i + 1, ii - 1] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i - 1, ii] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i, ii] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i + 1, ii] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i - 1, ii + 1] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i, ii + 1] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i + 1, ii + 1] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        //Rules to live by
+                        if (mFamily < 2)
+                        {
+                            mSpace[i, ii] = false;
+                            break;
+                        }
+                        else if (mFamily > 3)
+                        {
+                            mSpace[i, ii] = false;
+                            break;
+                        }
+                        else if (mFamily == 2 || mFamily == 3)
+                        {
+                            break;
+                        }
+                    }
+
+                    else if (mSpace[i, ii] == false)
+                    {
+                        if (mSpace[i - 1, ii - 1] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i, ii - 1] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i + 1, ii - 1] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i - 1, ii] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i, ii] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i + 1, ii] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i - 1, ii + 1] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i, ii + 1] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        else if (mSpace[i + 1, ii + 1] == true)
+                        {
+                            mFamily++;
+                            continue;
+                        }
+                        //This is supposed to make the NEXT generation live
+                        if (mFamily == 3)
+                        {
+                            mSpace[i, ii] = true;
+                        }
+                        
+                    }
+
+                    mFamily = 0;
+                }
+            }
         }
     }
 }
