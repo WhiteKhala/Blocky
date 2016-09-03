@@ -29,8 +29,6 @@ namespace GameOfLife
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            // NewGeneration
-
             //mGenerations++;
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
                                            "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
@@ -133,7 +131,9 @@ namespace GameOfLife
 
         private void cutToolStripButton_Click(object sender, EventArgs e)
         {
+
             MoveGeneration();
+            graphicsPanel1.Invalidate();
 
         }
 
@@ -226,55 +226,76 @@ namespace GameOfLife
             {
                 for (int ii = 0; ii < height; ii++)
                 {
+                    if (true)
+                    {
+
+                    }
                     if (mSpace[i, ii] == true)
                     {
                         //if (i - 1 < 0 || i + 1 > width || ii - 1 < 0 || ii + 1 > height)
                         //{
-                        //    continue
-                        //        this.left
+                        //    break;
                         //}
 
-                        if (mSpace[i - 1, ii - 1] == true)
+                        //else
+                        //{
+                        if (i - 1 > -1 && ii - 1 > -1 && mSpace[i - 1, ii - 1] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i, ii - 1] == true)
+                        else
+                        {
+                            continue;
+                        }
+
+                        if (ii - 1 > -1 && mSpace[i, ii - 1] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i + 1, ii - 1] == true)
+                        else
+                        {
+                            continue;
+                        }
+                        if (i + 1 <= width && ii - 1 > -1 && mSpace[i + 1, ii - 1] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i - 1, ii] == true)
+                        else
+                        {
+                            continue;
+                        }
+                        if (i - 1 > -1 && mSpace[i - 1, ii] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i, ii] == true)
+                        else
+                        {
+                            continue;
+                        }
+                        if (i + 1 <= width && mSpace[i + 1, ii] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i + 1, ii] == true)
+                        else
+                        {
+                            continue;
+                        }
+                        if (i - 1 > -1 && ii + 1 <= height && mSpace[i - 1, ii + 1] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i - 1, ii + 1] == true)
+                        if (ii + 1 <= height && mSpace[i, ii + 1] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i, ii + 1] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-                        else if (mSpace[i + 1, ii + 1] == true)
+                        if (i + 1 <= width && ii + 1 <= height && mSpace[i + 1, ii + 1] == true)
                         {
                             mFamily++;
                             continue;
@@ -298,62 +319,91 @@ namespace GameOfLife
 
                     else if (mSpace[i, ii] == false)
                     {
-                        if (mSpace[i - 1, ii - 1] == true)
+                        if (i - 1 > -1 && ii - 1 > -1 && mSpace[i - 1, ii - 1] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i, ii - 1] == true)
+                        else
+                        {
+                            continue;
+                        }
+                        if (ii - 1 > -1 && mSpace[i, ii - 1] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i + 1, ii - 1] == true)
+                        else
+                        {
+                            continue;
+                        }
+
+                        if (i + 1 <= width && ii - 1 > -1 && mSpace[i + 1, ii - 1] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i - 1, ii] == true)
+                        else
+                        {
+                            continue;
+                        }
+                        if (i - 1 > -1 && mSpace[i - 1, ii] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i, ii] == true)
+                        else
+                        {
+                            continue;
+                        }
+                        if (i + 1 <= height && mSpace[i + 1, ii] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i + 1, ii] == true)
+                        else
+                        {
+                            continue;
+                        }
+                        if (i - 1 > -1 && ii + 1 <= height && mSpace[i - 1, ii + 1] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i - 1, ii + 1] == true)
+                        else
+                        {
+                            continue;
+                        }
+                        if (ii + 1 <= height && mSpace[i, ii + 1] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i, ii + 1] == true)
+                        else
+                        {
+                            continue;
+                        }
+                        if (i + 1 <= width && ii + 1 <= height && mSpace[i + 1, ii + 1] == true)
                         {
                             mFamily++;
                             continue;
                         }
-                        else if (mSpace[i + 1, ii + 1] == true)
+                        else
                         {
-                            mFamily++;
                             continue;
                         }
                         //This is supposed to make the NEXT generation live
                         if (mFamily == 3)
                         {
-                            mSpace[i, ii] = true;
+                            nextSpace[i, ii] = true;
                         }
-                        
+
                     }
 
                     mFamily = 0;
                 }
             }
+
         }
     }
 }

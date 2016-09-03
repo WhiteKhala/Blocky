@@ -337,7 +337,7 @@
             this.fToolStripMenuItem,
             this.fromNewSeedToolStripMenuItem1});
             this.randomizeToolStripMenuItem1.Name = "randomizeToolStripMenuItem1";
-            this.randomizeToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.randomizeToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
             this.randomizeToolStripMenuItem1.Text = "Randomize";
             this.randomizeToolStripMenuItem1.Click += new System.EventHandler(this.randomizeToolStripMenuItem1_Click);
             // 
@@ -363,18 +363,18 @@
             // customizeToolStripMenuItem
             // 
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.customizeToolStripMenuItem.Text = "&Customize";
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(130, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             // 
             // settingsToolStripMenuItem1
@@ -383,7 +383,7 @@
             this.resetToolStripMenuItem1,
             this.reloadToolStripMenuItem1});
             this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
-            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
             this.settingsToolStripMenuItem1.Text = "Settings";
             // 
             // resetToolStripMenuItem1
@@ -462,6 +462,7 @@
             this.cutToolStripButton.Size = new System.Drawing.Size(23, 22);
             this.cutToolStripButton.Text = "Start";
             this.cutToolStripButton.Click += new System.EventHandler(this.cutToolStripButton_Click);
+
             // 
             // copyToolStripButton
             // 
