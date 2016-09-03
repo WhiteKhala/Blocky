@@ -13,6 +13,7 @@ namespace GameOfLife
     public partial class Form1 : Form
     {
         bool[,] mSpace = new bool[25, 25];
+        bool[,] nextSpace = new bool[25, 25];
         Timer mCount = new Timer();
         int mGenerations = 0;
         int mCellCount = 0;
@@ -227,6 +228,12 @@ namespace GameOfLife
                 {
                     if (mSpace[i, ii] == true)
                     {
+                        //if (i - 1 < 0 || i + 1 > width || ii - 1 < 0 || ii + 1 > height)
+                        //{
+                        //    continue
+                        //        this.left
+                        //}
+
                         if (mSpace[i - 1, ii - 1] == true)
                         {
                             mFamily++;
