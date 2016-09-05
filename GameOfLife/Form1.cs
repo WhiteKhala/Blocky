@@ -75,6 +75,8 @@ namespace GameOfLife
 
             mEpipen.Dispose();
             mLiveCellBrush.Dispose();
+
+            graphicsPanel1.Invalidate();
         }
 
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
@@ -128,8 +130,8 @@ namespace GameOfLife
 
         private void cutToolStripButton_Click(object sender, EventArgs e)
         {
-            NeighborCheck();
-            UpdateGraphics();
+            mGenerations++;
+            CellLogic();
             graphicsPanel1.Invalidate();
 
         }
@@ -208,72 +210,60 @@ namespace GameOfLife
 
         }
 
-        private void NeighborCheck()
+        private int NeighborCellCheck()
         {
-            mGenerations++;
+            int ArrayWidth = mSpace.GetLength(0);
+            int ArrayHeight = mSpace.GetLength(1);
 
-            int width = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
-            int height = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
+            int Count = 0;
 
-
-            for (int row = 0; row < width; row++)
+            for (int row = 0; row < ArrayWidth; row++)
             {
-                for (int column = 0; column < height; column++)
+                for (int column = 0; column < ArrayHeight; column++)
                 {
                     int mFamily = 0;
 
-                    for (int i = row - 1; i < row + 2; i++)
+
+                    if (//check all cells around)
                     {
-                        if (i < 0 || i >= 25)
-                        {
-                            continue;
-                        }
-
-                        for (int j = column - 1; j < column + 2; j++)
-                        {
-                            if (j < 0 || j >= 25)
-                            {
-                                continue;
-                            }
-
-                            if (mSpace[i, j] == true)
-                            {
-                                mFamily++;
-                            }
-                        }
+                        Count++;
                     }
 
                     mNeighborCount = mFamily;
                 }
             }
+            return Count;
 
         }
 
-        private void UpdateGraphics()
+        private void CellLogic()
         {
             int width = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
             int height = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
+
+            bool IsAlive = false;
+            int Count = NeighborCellCheck();
 
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
 
-                    if (mNeighborCount < 2)
+                    if (IsAlive && mNeighborCount < 2)
                     {
                         nextSpace[i, j] = false;
                     }
-                    else if (mNeighborCount > 3)
+                    else if (IsAlive && mNeighborCount > 3)
                     {
                         nextSpace[i, j] = false;
 
                     }
-                    else if (mNeighborCount == 2 || mNeighborCount == 3)
+                    else if (IsAlive && mNeighborCount == 2 || mNeighborCount == 3)
                     {
                         nextSpace[i, j] = true;
 
                     }
-                    else if (mNeighborCount == 3)
+                    else if (!IsAlive && mNeighborCount == 3)
                     {
                         nextSpace[i, j] = true;
                     }
