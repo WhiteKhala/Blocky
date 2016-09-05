@@ -18,6 +18,7 @@ namespace GameOfLife
         int mGenerations = 0;
         int mCellCount = 0;
         int mSeed = 0;
+        int mNeighborCount = 0;
         public Form1()
         {
             InitializeComponent();
@@ -48,7 +49,6 @@ namespace GameOfLife
             Pen mEpipen = new Pen(Color.Black, 1);
             Brush mLiveCellBrush = new SolidBrush(Color.Green);
 
-            //Gotta switch to floats
             int mWidth = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
             int mHeight = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
 
@@ -93,14 +93,16 @@ namespace GameOfLife
                 int y = e.Y / height;
                 if (mSpace[x, y] == false)
                 {
-                    mSpace[x, y] = !mSpace[x, y];
+                    mSpace[x, y] = true;
+                    //mSpace[x, y] = !mSpace[x, y];
                     graphicsPanel1.Invalidate();
                     mCellCount++;
                 }
 
                 else if (mSpace[x, y] == true)
                 {
-                    mSpace[x, y] = !mSpace[x, y];
+                    mSpace[x, y] = false;
+                    //mSpace[x, y] = !mSpace[x, y];
                     graphicsPanel1.Invalidate();
                     mCellCount--;
                 }
@@ -126,8 +128,8 @@ namespace GameOfLife
 
         private void cutToolStripButton_Click(object sender, EventArgs e)
         {
-            mSpace = nextSpace;
-            MoveGeneration();
+            NeighborCheck();
+            UpdateGraphics();
             graphicsPanel1.Invalidate();
 
         }
@@ -206,159 +208,80 @@ namespace GameOfLife
 
         }
 
-        private void MoveGeneration()
+        private void NeighborCheck()
         {
             mGenerations++;
-            int mFamily = 0;
+
             int width = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
             int height = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
 
-            for (int i = 0; i < width; i++)
+
+            for (int row = 0; row < width; row++)
             {
-                for (int ii = 0; ii < height; ii++)
+                for (int column = 0; column < height; column++)
                 {
-                    if (true)
+                    int mFamily = 0;
+
+                    for (int i = row - 1; i < row + 2; i++)
                     {
-
-                    }
-                    if (mSpace[i, ii] == true)
-                    {
-                        if (i - 1 > -1 && ii - 1 > -1 && mSpace[i - 1, ii - 1] == true)
+                        if (i < 0 || i >= 25)
                         {
-                            mFamily++;
                             continue;
                         }
 
-                        else if (ii - 1 > -1 && mSpace[i, ii - 1] == true)
+                        for (int j = column - 1; j < column + 2; j++)
                         {
-                            mFamily++;
-                            continue;
-                        }
+                            if (j < 0 || j >= 25)
+                            {
+                                continue;
+                            }
 
-                        else if (i + 1 <= width && ii - 1 > -1 && mSpace[i + 1, ii - 1] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        else if (i - 1 > -1 && mSpace[i - 1, ii] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        else if (i + 1 <= width && mSpace[i + 1, ii] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        else if (i - 1 > -1 && ii + 1 <= height && mSpace[i - 1, ii + 1] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        else if (ii + 1 <= height && mSpace[i, ii + 1] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        else if (i + 1 <= width && ii + 1 <= height && mSpace[i + 1, ii + 1] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        //Rules to live by
-                        if (mFamily < 2)
-                        {
-                            nextSpace[i, ii] = false;
-                            break;
-                        }
-                        else if (mFamily > 3)
-                        {
-                            nextSpace[i, ii] = false;
-                            break;
-                        }
-                        else if (mFamily == 2 || mFamily == 3)
-                        {
-                            nextSpace[i, ii] = true;
-                            break;
+                            if (mSpace[i, j] == true)
+                            {
+                                mFamily++;
+                            }
                         }
                     }
 
-                    else if (mSpace[i, ii] == false)
-                    {
-                        if (i - 1 > -1 && ii - 1 > -1 && mSpace[i - 1, ii - 1] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        else if (ii - 1 > -1 && mSpace[i, ii - 1] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        else if (i + 1 <= width && ii - 1 > -1 && mSpace[i + 1, ii - 1] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        else if (i - 1 > -1 && mSpace[i - 1, ii] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        else if (i + 1 <= height && mSpace[i + 1, ii] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        else if (i - 1 > -1 && ii + 1 <= height && mSpace[i - 1, ii + 1] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        else if (ii + 1 <= height && mSpace[i, ii + 1] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        if (i + 1 <= width && ii + 1 <= height && mSpace[i + 1, ii + 1] == true)
-                        {
-                            mFamily++;
-                            continue;
-                        }
-
-                        //This is supposed to make the NEXT generation live
-                        if (mFamily == 3)
-                        {
-                            nextSpace[i, ii] = true;
-                            break;
-                        }
-
-                        else
-                        {
-                            break;
-                        }
-
-                    }
-
-                    mFamily = 0;
+                    mNeighborCount = mFamily;
                 }
             }
 
         }
 
+        private void UpdateGraphics()
+        {
+            int width = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
+            int height = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+
+                    if (mNeighborCount < 2)
+                    {
+                        nextSpace[i, j] = false;
+                    }
+                    else if (mNeighborCount > 3)
+                    {
+                        nextSpace[i, j] = false;
+
+                    }
+                    else if (mNeighborCount == 2 || mNeighborCount == 3)
+                    {
+                        nextSpace[i, j] = true;
+
+                    }
+                    else if (mNeighborCount == 3)
+                    {
+                        nextSpace[i, j] = true;
+                    }
+                }
+            }
+
+            mSpace = nextSpace;
+        }
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Array.Clear(mSpace, 0, mSpace.Length);
@@ -372,3 +295,189 @@ namespace GameOfLife
         }
     }
 }
+//Alive/Dead check
+/*
+ *                     for (int i = 0; i < width; i++)
+                    {
+                        if (i < 0 || i >= width)
+                        {
+                            continue;
+                        }
+                        for (int j = 0; j < height; j++)
+                        {
+
+                            if (mFamily < 2)
+                            {
+                                nextSpace[i, j] = false;
+                            }
+                            else if (mFamily > 3)
+                            {
+                                nextSpace[i, j] = false;
+
+                            }
+                            else if (mFamily == 2 || mFamily == 3)
+                            {
+                                nextSpace[i, j] = true;
+
+                            }
+                            else if (mFamily == 3)
+                            {
+                                nextSpace[i, j] = true;
+                            }
+                        }
+                    }
+//Past code to check/make alive dead
+/*
+ *             for (int i = width - 1; i < width + 2 ; i++)
+            {
+                for (int ii = height - 1; ii < height + 2; ii++)
+                {
+                    if (i < 0 || i >= width)
+                    {
+                        continue;
+                    }
+
+                    else if (ii < 0 || ii >= height)
+                    {
+                        continue;
+                    }
+
+                    else
+                    {
+                        if (mSpace[i, ii] == true)
+                        {
+                            if (i - 1 > -1 && ii - 1 > -1 && mSpace[i - 1, ii - 1] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (ii - 1 > -1 && mSpace[i, ii - 1] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (i + 1 <= width && ii - 1 > -1 && mSpace[i + 1, ii - 1] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (i - 1 > -1 && mSpace[i - 1, ii] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (i + 1 <= width && mSpace[i + 1, ii] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (i - 1 > -1 && ii + 1 <= height && mSpace[i - 1, ii + 1] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (ii + 1 <= height && mSpace[i, ii + 1] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (i + 1 <= width && ii + 1 <= height && mSpace[i + 1, ii + 1] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            //Rules to live by
+                            if (mFamily < 2)
+                            {
+                                nextSpace[i, ii] = false;
+                                break;
+                            }
+                            else if (mFamily > 3)
+                            {
+                                nextSpace[i, ii] = false;
+                                break;
+                            }
+                            else if (mFamily == 2 || mFamily == 3)
+                            {
+                                nextSpace[i, ii] = true;
+                                break;
+                            }
+                        }
+
+                        else if (mSpace[i, ii] == false)
+                        {
+                            if (i - 1 > -1 && ii - 1 > -1 && mSpace[i - 1, ii - 1] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (ii - 1 > -1 && mSpace[i, ii - 1] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (i + 1 <= width && ii - 1 > -1 && mSpace[i + 1, ii - 1] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (i - 1 > -1 && mSpace[i - 1, ii] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (i + 1 <= height && mSpace[i + 1, ii] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (i - 1 > -1 && ii + 1 <= height && mSpace[i - 1, ii + 1] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            else if (ii + 1 <= height && mSpace[i, ii + 1] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            if (i + 1 <= width && ii + 1 <= height && mSpace[i + 1, ii + 1] == true)
+                            {
+                                mFamily++;
+                                continue;
+                            }
+
+                            //This is supposed to make the NEXT generation live
+                            if (mFamily == 3)
+                            {
+                                nextSpace[i, ii] = true;
+                                break;
+                            }
+
+                            else
+                            {
+                                break;
+                            }
+
+                        }
+                    }
+
+                    mFamily = 0;
+                }
+            }
+*/
