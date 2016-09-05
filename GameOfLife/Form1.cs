@@ -210,23 +210,79 @@ namespace GameOfLife
 
         }
 
-        private int NeighborCellCheck()
+        private int NeighborCellCheck(int x, int y)
         {
             int ArrayWidth = mSpace.GetLength(0);
             int ArrayHeight = mSpace.GetLength(1);
 
             int Count = 0;
 
-            for (int row = 0; row < ArrayWidth; row++)
+            for (x = 0; x < ArrayWidth; x++)
             {
-                for (int column = 0; column < ArrayHeight; column++)
+                for (y = 0; y < ArrayHeight; y++)
                 {
                     int mFamily = 0;
 
-
-                    if (//check all cells around)
+                    if (x != ArrayWidth - 1)
                     {
+                        if (mSpace[x+1, y] == true)
                         Count++;
+                    }
+
+                    if (x != ArrayWidth - 1 && y != ArrayHeight - 1)
+                    {
+                        if (mSpace[x+1, y+1] == true)
+                        {
+                            Count++;
+                        }
+                    }
+
+                    if (y != ArrayHeight - 1)
+                    {
+                        if (mSpace[x, y+1] == true)
+                        {
+                            Count++;
+                        }
+                    }
+
+                    if (x != 0 && y != ArrayHeight - 1)
+                    {
+                        if (mSpace[x-1,y+1] == true)
+                        {
+                            Count++;
+                        }
+                    }
+
+                    if (x != 0)
+                    {
+                        if (mSpace[x-1,y] == true)
+                        {
+                            Count++;
+                        }
+                    }
+
+                    if (x != 0 && y != 0)
+                    {
+                        if (mSpace[x -1, y -1] == true)
+                        {
+                            Count++;
+                        }
+                    }
+
+                    if (y != 0)
+                    {
+                        if (mSpace[x, y-1] == true)
+                        {
+                            Count++;
+                        }
+                    }
+
+                    if (x != ArrayWidth - 1 && y != 0)
+                    {
+                        if (mSpace[x+1,y-1] == true)
+                        {
+                            Count++;
+                        }
                     }
 
                     mNeighborCount = mFamily;
@@ -242,12 +298,13 @@ namespace GameOfLife
             int height = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
 
             bool IsAlive = false;
-            int Count = NeighborCellCheck();
 
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
+                    int Count = NeighborCellCheck(i, j);
+                    mSpace[i, j] = nextSpace[i, j];
 
                     if (IsAlive && mNeighborCount < 2)
                     {
@@ -267,10 +324,10 @@ namespace GameOfLife
                     {
                         nextSpace[i, j] = true;
                     }
+
                 }
             }
 
-            mSpace = nextSpace;
         }
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
