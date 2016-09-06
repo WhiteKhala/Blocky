@@ -14,7 +14,7 @@ namespace GameOfLife
     {
         bool[,] mSpace = new bool[25, 25];
         bool[,] nextSpace = new bool[25, 25];
-        Timer mCount = new Timer();
+        Timer timer = new Timer();
         int mGenerations = 0;
         int mCellCount = 0;
         int mSeed = 0;
@@ -23,15 +23,14 @@ namespace GameOfLife
         {
             InitializeComponent();
 
-            mCount.Tick += Timer_Tick;
-            mCount.Enabled = true;
-            mCount.Interval = 20;
+            timer.Enabled = false;
+            timer.Interval = 20;
+            timer.Tick += Timer_Tick;
 
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            
             mGenerations++;
             CellLogic();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
@@ -130,7 +129,7 @@ namespace GameOfLife
 
         private void cutToolStripButton_Click(object sender, EventArgs e)
         {
-            mCount.Start();
+            timer.Enabled = true;
 
             //mGenerations++;
             //CellLogic();
@@ -362,7 +361,7 @@ namespace GameOfLife
 
         private void copyToolStripButton_Click(object sender, EventArgs e)
         {
-            mCount.Stop();
+            timer.Enabled = false;
         }
 
         private void nextToolStripMenuItem_Click(object sender, EventArgs e)
