@@ -217,77 +217,68 @@ namespace GameOfLife
 
             int Count = 0;
 
-            for (x = 0; x < ArrayWidth; x++)
+            if (x != ArrayWidth - 1)
             {
-                for (y = 0; y < ArrayHeight; y++)
+                if (mSpace[x+1, y] == true)
+                Count++;
+            }
+
+            if (x != ArrayWidth - 1 && y != ArrayHeight - 1)
+            {
+                if (mSpace[x+1, y+1] == true)
                 {
-                    int mFamily = 0;
-
-                    if (x != ArrayWidth - 1)
-                    {
-                        if (mSpace[x+1, y] == true)
-                        Count++;
-                    }
-
-                    if (x != ArrayWidth - 1 && y != ArrayHeight - 1)
-                    {
-                        if (mSpace[x+1, y+1] == true)
-                        {
-                            Count++;
-                        }
-                    }
-
-                    if (y != ArrayHeight - 1)
-                    {
-                        if (mSpace[x, y+1] == true)
-                        {
-                            Count++;
-                        }
-                    }
-
-                    if (x != 0 && y != ArrayHeight - 1)
-                    {
-                        if (mSpace[x-1,y+1] == true)
-                        {
-                            Count++;
-                        }
-                    }
-
-                    if (x != 0)
-                    {
-                        if (mSpace[x-1,y] == true)
-                        {
-                            Count++;
-                        }
-                    }
-
-                    if (x != 0 && y != 0)
-                    {
-                        if (mSpace[x -1, y -1] == true)
-                        {
-                            Count++;
-                        }
-                    }
-
-                    if (y != 0)
-                    {
-                        if (mSpace[x, y-1] == true)
-                        {
-                            Count++;
-                        }
-                    }
-
-                    if (x != ArrayWidth - 1 && y != 0)
-                    {
-                        if (mSpace[x+1,y-1] == true)
-                        {
-                            Count++;
-                        }
-                    }
-
-                    mNeighborCount = mFamily;
+                    Count++;
                 }
             }
+
+            if (y != ArrayHeight - 1)
+            {
+                if (mSpace[x, y+1] == true)
+                {
+                    Count++;
+                }
+            }
+
+            if (x != 0 && y != ArrayHeight - 1)
+            {
+                if (mSpace[x-1,y+1] == true)
+                {
+                    Count++;
+                }
+            }
+
+            if (x != 0)
+            {
+                if (mSpace[x-1,y] == true)
+                {
+                    Count++;
+                }
+            }
+
+            if (x != 0 && y != 0)
+            {
+                if (mSpace[x -1, y -1] == true)
+                {
+                    Count++;
+                }
+            }
+
+            if (y != 0)
+            {
+                if (mSpace[x, y-1] == true)
+                {
+                    Count++;
+                }
+            }
+
+            if (x != ArrayWidth - 1 && y != 0)
+            {
+                if (mSpace[x+1,y-1] == true)
+                {
+                    Count++;
+                }
+            }
+
             return Count;
 
         }
@@ -297,34 +288,45 @@ namespace GameOfLife
             int width = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
             int height = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
 
-            bool IsAlive = false;
-
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
+                    bool IsAlive = mSpace[i, j];
                     int Count = NeighborCellCheck(i, j);
-                    mSpace[i, j] = nextSpace[i, j];
+                    bool results = false;
 
-                    if (IsAlive && mNeighborCount < 2)
+                    if (IsAlive && Count < 2)
                     {
-                        nextSpace[i, j] = false;
+                        results = false;
+                        //nextSpace[i, j] = false;
                     }
-                    else if (IsAlive && mNeighborCount > 3)
+                    else if (IsAlive && Count > 3)
                     {
-                        nextSpace[i, j] = false;
-
-                    }
-                    else if (IsAlive && mNeighborCount == 2 || mNeighborCount == 3)
-                    {
-                        nextSpace[i, j] = true;
+                        results = false;
+                        //nextSpace[i, j] = false;
 
                     }
-                    else if (!IsAlive && mNeighborCount == 3)
+                    else if (IsAlive && Count == 2 || Count == 3)
                     {
-                        nextSpace[i, j] = true;
-                    }
+                        results = true;
+                        //nextSpace[i, j] = true;
 
+                    }
+                    else if (!IsAlive && Count == 3)
+                    {
+                        results = true;
+                        //nextSpace[i, j] = true;
+                    }
+                    nextSpace[i, j] = results;
+                }
+            }
+
+            for (int x = 0; x < width; x++)
+            {
+                for (int y = 0; y < height; y++)
+                {
+                    mSpace[x, y] = nextSpace[x, y];
                 }
             }
 
