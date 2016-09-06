@@ -130,14 +130,6 @@ namespace GameOfLife
         private void cutToolStripButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
-
-            //mGenerations++;
-            //CellLogic();
-            //graphicsPanel1.Invalidate();
-
-            //toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-            //        "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
-                
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -303,24 +295,24 @@ namespace GameOfLife
                     if (IsAlive && Count < 2)
                     {
                         results = false;
-                        //nextSpace[i, j] = false;
+                        
                     }
                     else if (IsAlive && Count > 3)
                     {
                         results = false;
-                        //nextSpace[i, j] = false;
+                        
 
                     }
                     else if (IsAlive && Count == 2 || Count == 3)
                     {
                         results = true;
-                        //nextSpace[i, j] = true;
+                        
 
                     }
                     else if (!IsAlive && Count == 3)
                     {
                         results = true;
-                        //nextSpace[i, j] = true;
+                        
                     }
                     nextSpace[i, j] = results;
                 }
@@ -373,6 +365,16 @@ namespace GameOfLife
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
                    "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
 
+        }
+
+        private void startToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = true;
+        }
+
+        private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
         }
     }
 }
