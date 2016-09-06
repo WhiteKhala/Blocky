@@ -18,25 +18,25 @@ namespace GameOfLife
         int mGenerations = 0;
         int mCellCount = 0;
         int mSeed = 0;
-        int mNeighborCount = 0;
+
         public Form1()
         {
             InitializeComponent();
-            mCount.Enabled = true;
-            mCount.Interval = 30;
+
             mCount.Tick += Timer_Tick;
+            mCount.Enabled = true;
+            mCount.Interval = 20;
 
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            //mGenerations++;
+            
+            mGenerations++;
+            CellLogic();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-                                           "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
-
-
+                               "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
             graphicsPanel1.Invalidate();
-
         }
 
         private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -130,10 +130,15 @@ namespace GameOfLife
 
         private void cutToolStripButton_Click(object sender, EventArgs e)
         {
-            mGenerations++;
-            CellLogic();
-            graphicsPanel1.Invalidate();
+            mCount.Start();
 
+            //mGenerations++;
+            //CellLogic();
+            //graphicsPanel1.Invalidate();
+
+            //toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+            //        "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+                
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -335,12 +340,40 @@ namespace GameOfLife
         {
             Array.Clear(mSpace, 0, mSpace.Length);
             Array.Clear(nextSpace, 0, nextSpace.Length);
+
         }
 
         private void newToolStripButton_Click(object sender, EventArgs e)
         {
             Array.Clear(mSpace, 0, mSpace.Length);
             Array.Clear(nextSpace, 0, nextSpace.Length);
+        }
+
+        private void pasteToolStripButton_Click(object sender, EventArgs e)
+        {
+            mGenerations++;
+            CellLogic();
+            graphicsPanel1.Invalidate();
+
+            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+                   "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+
+        }
+
+        private void copyToolStripButton_Click(object sender, EventArgs e)
+        {
+            mCount.Stop();
+        }
+
+        private void nextToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            mGenerations++;
+            CellLogic();
+            graphicsPanel1.Invalidate();
+
+            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+                   "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+
         }
     }
 }
