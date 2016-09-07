@@ -83,6 +83,16 @@ namespace GameOfLife.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap startwithoutdebugging_6556 {
+            get {
+                object obj = ResourceManager.GetObject("startwithoutdebugging_6556", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Symbols_Pause_32xLG {
             get {
                 object obj = ResourceManager.GetObject("Symbols_Pause_32xLG", resourceCulture);

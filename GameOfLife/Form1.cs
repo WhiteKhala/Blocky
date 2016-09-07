@@ -13,8 +13,8 @@ namespace GameOfLife
 {
     public partial class Form1 : Form
     {
-        bool[,] mSpace = new bool[25, 25];
-        bool[,] nextSpace = new bool[25, 25];
+        bool[,] mSpace = new bool[30, 30];
+        bool[,] nextSpace = new bool[30, 30];
         Timer timer = new Timer();
         int mGenerations = 0;
         int mCellCount = 0;
@@ -41,6 +41,11 @@ namespace GameOfLife
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
                                "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
             graphicsPanel1.Invalidate();
+
+            if (mCellCount == 0)
+            {
+                timer.Enabled = false;
+            }
         }
 
         private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -52,25 +57,26 @@ namespace GameOfLife
         {
             Pen mEpipen = new Pen(Color.Black, 1);
             Brush mLiveCellBrush = new SolidBrush(Color.Green);
+            //Gotta fix the float math
+            float mWidth = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
+            float mHeight = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
 
-            int mWidth = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
-            int mHeight = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
 
-            
             for (int x = 0; x < mSpace.GetLength(0); x++)
             {
                 for (int y = 0; y < mSpace.GetLength(1); y++)
                 {
-                    Rectangle mRectangle = Rectangle.Empty;
-                    mRectangle.X = x * mWidth;
-                    mRectangle.Y =  y * mHeight;
+                    RectangleF mRectangle = RectangleF.Empty;
+
+                    mRectangle.X = (float)x * mWidth;
+                    mRectangle.Y = (float)y * mHeight;
                     mRectangle.Width = mWidth;
                     mRectangle.Height = mHeight;
 
-                    if (mSpace[x,y] == true)
+                    if (mSpace[x, y] == true)
                     {
                         e.Graphics.FillRectangle(mLiveCellBrush, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
-                        
+
                     }
 
                     e.Graphics.DrawRectangle(mEpipen, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
@@ -97,7 +103,6 @@ namespace GameOfLife
                 int y = e.Y / height;
                 if (mSpace[x, y] == false)
                 {
-                    //mSpace[x, y] = true;
                     mSpace[x, y] = !mSpace[x, y];
                     CellCountCheck();
                     graphicsPanel1.Invalidate();
@@ -108,7 +113,6 @@ namespace GameOfLife
 
                 else if (mSpace[x, y] == true)
                 {
-                    //mSpace[x, y] = false;
                     mSpace[x, y] = !mSpace[x, y];
                     CellCountCheck();
                     graphicsPanel1.Invalidate();
@@ -138,6 +142,7 @@ namespace GameOfLife
         private void cutToolStripButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
+
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -214,30 +219,42 @@ namespace GameOfLife
             Array.Clear(mSpace, 0, mSpace.Length);
             Array.Clear(nextSpace, 0, nextSpace.Length);
 
-            Timer fromTime = new Timer();
+            //Timer fromTime = new Timer();    //How do we use timer's time to randomize? I know we get a number and mod it, but how?
             Random rand = new Random();
             for (int i = 0; i < mSpace.GetLength(0); i++)
             {
                 for (int j = 0; j < mSpace.GetLength(1); j++)
                 {
-                    int x = rand.Next(0, 2);
+                    int x = rand.Next(0, 3);
                     if (x == 0)
                     {
-                        mSpace[i, j] = true;
+                        nextSpace[i, j] = true;
                     }
-                    
+
                     else if (x == 1)
                     {
-                        mSpace[i, j] = false;
+                        nextSpace[i, j] = false;
                     }
 
                     else if (x == 2)
                     {
-                        mSpace[i, j] = false;
+                        nextSpace[i, j] = false;
                     }
+
                 }
             }
+            for (int i = 0; i < mSpace.GetLength(0); i++)
+            {
+                for (int j = 0; j < mSpace.GetLength(1); j++)
+                {
+                    mSpace[i, j] = nextSpace[i, j];
+                }
+            }
+            //Have to fix the cellcount, it's extremely high
             CellCountCheck();
+            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+            "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+
             graphicsPanel1.Invalidate();
         }
 
@@ -250,13 +267,13 @@ namespace GameOfLife
 
             if (x != ArrayWidth - 1)
             {
-                if (mSpace[x+1, y] == true)
-                Count++;
+                if (mSpace[x + 1, y] == true)
+                    Count++;
             }
 
             if (x != ArrayWidth - 1 && y != ArrayHeight - 1)
             {
-                if (mSpace[x+1, y+1] == true)
+                if (mSpace[x + 1, y + 1] == true)
                 {
                     Count++;
                 }
@@ -264,7 +281,7 @@ namespace GameOfLife
 
             if (y != ArrayHeight - 1)
             {
-                if (mSpace[x, y+1] == true)
+                if (mSpace[x, y + 1] == true)
                 {
                     Count++;
                 }
@@ -272,7 +289,7 @@ namespace GameOfLife
 
             if (x != 0 && y != ArrayHeight - 1)
             {
-                if (mSpace[x-1,y+1] == true)
+                if (mSpace[x - 1, y + 1] == true)
                 {
                     Count++;
                 }
@@ -280,7 +297,7 @@ namespace GameOfLife
 
             if (x != 0)
             {
-                if (mSpace[x-1,y] == true)
+                if (mSpace[x - 1, y] == true)
                 {
                     Count++;
                 }
@@ -288,7 +305,7 @@ namespace GameOfLife
 
             if (x != 0 && y != 0)
             {
-                if (mSpace[x -1, y -1] == true)
+                if (mSpace[x - 1, y - 1] == true)
                 {
                     Count++;
                 }
@@ -296,7 +313,7 @@ namespace GameOfLife
 
             if (y != 0)
             {
-                if (mSpace[x, y-1] == true)
+                if (mSpace[x, y - 1] == true)
                 {
                     Count++;
                 }
@@ -304,7 +321,7 @@ namespace GameOfLife
 
             if (x != ArrayWidth - 1 && y != 0)
             {
-                if (mSpace[x+1,y-1] == true)
+                if (mSpace[x + 1, y - 1] == true)
                 {
                     Count++;
                 }
@@ -316,8 +333,8 @@ namespace GameOfLife
 
         private void CellLogic()
         {
-            int width = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
-            int height = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
+            int width = mSpace.GetLength(0);
+            int height = mSpace.GetLength(1);
 
             for (int i = 0; i < width; i++)
             {
@@ -330,24 +347,24 @@ namespace GameOfLife
                     if (IsAlive && Count < 2)
                     {
                         results = false;
-                        
+
                     }
                     else if (IsAlive && Count > 3)
                     {
                         results = false;
-                        
+
 
                     }
                     else if (IsAlive && Count == 2 || Count == 3)
                     {
                         results = true;
-                        
+
 
                     }
                     else if (!IsAlive && Count == 3)
                     {
                         results = true;
-                        
+
                     }
                     nextSpace[i, j] = results;
                 }
@@ -364,19 +381,24 @@ namespace GameOfLife
         }
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            CellCountCheck();
             mGenerations = 0;
             Array.Clear(mSpace, 0, mSpace.Length);
             Array.Clear(nextSpace, 0, nextSpace.Length);
+            CellCountCheck();
+            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+            "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
             graphicsPanel1.Invalidate();
         }
 
         private void newToolStripButton_Click(object sender, EventArgs e)
         {
-            CellCountCheck();
+
             mGenerations = 0;
             Array.Clear(mSpace, 0, mSpace.Length);
             Array.Clear(nextSpace, 0, nextSpace.Length);
+            CellCountCheck();
+            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+            "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
             graphicsPanel1.Invalidate();
         }
 
@@ -412,6 +434,7 @@ namespace GameOfLife
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
+
         }
 
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
