@@ -25,7 +25,7 @@ namespace GameOfLife
             InitializeComponent();
 
             timer.Enabled = false;
-            timer.Interval = 250;
+            timer.Interval = 20;
             timer.Tick += Timer_Tick;
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
                    "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
@@ -78,7 +78,7 @@ namespace GameOfLife
             mEpipen.Dispose();
             mLiveCellBrush.Dispose();
 
-            
+            graphicsPanel1.Invalidate();
         }
 
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
@@ -362,7 +362,7 @@ namespace GameOfLife
             mGenerations = 0;
             Array.Clear(mSpace, 0, mSpace.Length);
             Array.Clear(nextSpace, 0, nextSpace.Length);
-            graphicsPanel1.Invalidate();
+
         }
 
         private void newToolStripButton_Click(object sender, EventArgs e)
@@ -370,7 +370,6 @@ namespace GameOfLife
             mGenerations = 0;
             Array.Clear(mSpace, 0, mSpace.Length);
             Array.Clear(nextSpace, 0, nextSpace.Length);
-            graphicsPanel1.Invalidate();
         }
 
         private void pasteToolStripButton_Click(object sender, EventArgs e)
