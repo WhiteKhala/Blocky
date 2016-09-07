@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+// You've gotta make cellcount work properly, as it stands if you throw rand it won't add anything up, ONLY IF YOU CLICK THEM DOES IT WORK.
 namespace GameOfLife
 {
     public partial class Form1 : Form
@@ -26,6 +27,8 @@ namespace GameOfLife
             timer.Enabled = false;
             timer.Interval = 250;
             timer.Tick += Timer_Tick;
+            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+                   "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
 
         }
 
@@ -203,7 +206,34 @@ namespace GameOfLife
 
         private void fromTimeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            Array.Clear(mSpace, 0, mSpace.Length);
+            Array.Clear(nextSpace, 0, nextSpace.Length);
 
+            Timer fromTime = new Timer();
+            Random rand = new Random();
+            for (int i = 0; i < mSpace.GetLength(0); i++)
+            {
+                for (int j = 0; j < mSpace.GetLength(1); j++)
+                {
+                    int x = rand.Next(0, 2);
+                    if (x == 0)
+                    {
+                        mSpace[i, j] = true;
+                    }
+                    
+                    else if (x == 1)
+                    {
+                        mSpace[i, j] = false;
+                    }
+
+                    else if (x == 2)
+                    {
+                        mSpace[i, j] = false;
+                    }
+                }
+            }
+
+            graphicsPanel1.Invalidate();
         }
 
         private int NeighborCellCheck(int x, int y)
@@ -329,6 +359,7 @@ namespace GameOfLife
         }
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            mGenerations = 0;
             Array.Clear(mSpace, 0, mSpace.Length);
             Array.Clear(nextSpace, 0, nextSpace.Length);
             graphicsPanel1.Invalidate();
@@ -336,6 +367,7 @@ namespace GameOfLife
 
         private void newToolStripButton_Click(object sender, EventArgs e)
         {
+            mGenerations = 0;
             Array.Clear(mSpace, 0, mSpace.Length);
             Array.Clear(nextSpace, 0, nextSpace.Length);
             graphicsPanel1.Invalidate();
@@ -376,6 +408,11 @@ namespace GameOfLife
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
+        }
+
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }
