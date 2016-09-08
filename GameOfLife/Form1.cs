@@ -16,9 +16,13 @@ namespace GameOfLife
         bool[,] mSpace = new bool[30, 30];
         bool[,] nextSpace = new bool[30, 30];
         Timer timer = new Timer();
+        //Timer runTo = new Timer();  Might use this
         int mGenerations = 0;
         int mCellCount = 0;
         int mSeed = 0;
+        int mRunToGen = 0; //This will be for runtodialogbox
+        int timerSpeed; //This will set the timer to runto's specifications
+       
 
         public Form1()
         {
@@ -46,6 +50,11 @@ namespace GameOfLife
             {
                 timer.Enabled = false;
             }
+
+            //if (mGenerations == mRunToGen)
+            //{
+            //    timer.Enabled = false;
+            //}
         }
 
         private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -55,8 +64,8 @@ namespace GameOfLife
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
-            Pen mEpipen = new Pen(Color.Black, 1);
-            Brush mLiveCellBrush = new SolidBrush(Color.Green);
+            Pen mEpipen = new Pen(Color.Gray, 1);
+            Brush mLiveCellBrush = new SolidBrush(Color.DarkGray);
             //Gotta fix the float math
             float mWidth = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
             float mHeight = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
@@ -250,7 +259,7 @@ namespace GameOfLife
                     mSpace[i, j] = nextSpace[i, j];
                 }
             }
-            //Have to fix the cellcount, it's extremely high
+
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
             "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
@@ -460,6 +469,14 @@ namespace GameOfLife
 
                 }
             }
+        }
+        //RunTo needs work
+        private void runToToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Run to will have a much faster interval than normal so that the user can just go to whichever position he wants
+            //as fast as possible
+            timer.Interval = 20;
+            timer.Enabled = true;
         }
     }
 
