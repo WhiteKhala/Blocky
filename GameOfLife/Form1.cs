@@ -13,6 +13,8 @@ namespace GameOfLife
 {
     public partial class Form1 : Form
     {
+        int gWidth = 30, gHeight = 30;
+        //Shove mwidth, height into both spaces
         bool[,] mSpace = new bool[30, 30];
         bool[,] nextSpace = new bool[30, 30];
         Timer timer = new Timer();
@@ -22,14 +24,15 @@ namespace GameOfLife
         int mSeed = 0;
         int mRunToGen = 0; //This will be for runtodialogbox
         int timerSpeed; //This will set the timer to runto's specifications
+        bool HUD = true;
+        bool mGrid = true;
        
 
         public Form1()
         {
             InitializeComponent();
-
             timer.Enabled = false;
-            timer.Interval = 250;
+            timer.Interval = 20;
             timer.Tick += Timer_Tick;
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
@@ -64,8 +67,15 @@ namespace GameOfLife
 
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
+
             Pen mEpipen = new Pen(Color.Gray, 1);
             Brush mLiveCellBrush = new SolidBrush(Color.DarkGray);
+
+            if (mGrid == false)
+            {
+                mEpipen.Color = Color.Empty;
+            }
+
             //Gotta fix the float math
             float mWidth = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
             float mHeight = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
@@ -92,8 +102,27 @@ namespace GameOfLife
                 }
             }
 
+            if (HUD)
+            {
+                Font font = new Font("Arial", 12);
+
+                StringFormat stringFormat = new StringFormat();
+                stringFormat.Alignment = StringAlignment.Near;
+                stringFormat.LineAlignment = StringAlignment.Far;
+
+                Rectangle shrekt = new Rectangle(0, graphicsPanel1.ClientSize.Height - 100, 300, 100);
+                string hOut = "Generations: " + mGenerations.ToString() + "\n";
+                hOut += "Cell Count: " + mCellCount + "\n";
+                hOut += "Boundary Type: " + "\n"; //add + mBoundary
+                hOut += "Universe Size: {Width =" + gWidth + ", Height=" + gHeight + "}";
+                //mWidth and mHeight are showing numbers that aren't what I predefined
+
+                e.Graphics.DrawString(hOut, font, Brushes.Blue, shrekt);
+            }
+
             mEpipen.Dispose();
             mLiveCellBrush.Dispose();
+
         }
 
         private void toolStripStatusLabel1_Click(object sender, EventArgs e)
@@ -176,28 +205,19 @@ namespace GameOfLife
 
         private void gridVisibleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (gridVisibleToolStripMenuItem.Checked == true)
-            {
-                gridVisibleToolStripMenuItem.Checked = false;
-            }
+            mGrid = !mGrid;
+            gridVisibleToolStripMenuItem.Checked = mGrid;
 
-            else if (gridVisibleToolStripMenuItem.Checked == false)
-            {
-                gridVisibleToolStripMenuItem.Checked = true;
-            }
+            graphicsPanel1.Invalidate();
+
         }
 
         private void headsUpVisibleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (headsUpVisibleToolStripMenuItem.Checked == true)
-            {
-                headsUpVisibleToolStripMenuItem.Checked = false;
-            }
+            HUD = !HUD;
+            headsUpVisibleToolStripMenuItem.Checked = HUD;
 
-            else if (headsUpVisibleToolStripMenuItem.Checked == false)
-            {
-                headsUpVisibleToolStripMenuItem.Checked = true;
-            }
+            graphicsPanel1.Invalidate();
         }
 
         private void neighborCountVisibleToolStripMenuItem_Click(object sender, EventArgs e)
