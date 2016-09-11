@@ -490,6 +490,12 @@ namespace GameOfLife
                 }
             }
         }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
         //RunTo needs work
         private void runToToolStripMenuItem_Click(object sender, EventArgs e)
         {
