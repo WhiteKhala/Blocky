@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+using System.IO;
 // You've gotta make cellcount work properly, as it stands if you throw rand it won't add anything up, ONLY IF YOU CLICK THEM DOES IT WORK.
 namespace GameOfLife
 {
@@ -26,13 +26,13 @@ namespace GameOfLife
         int timerSpeed; //This will set the timer to runto's specifications
         bool HUD = true;
         bool mGrid = true;
-       
+        bool NeighborCountValid = true;
 
         public Form1()
         {
             InitializeComponent();
             timer.Enabled = false;
-            timer.Interval = 20;
+            timer.Interval = 100;
             timer.Tick += Timer_Tick;
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
@@ -97,6 +97,24 @@ namespace GameOfLife
                         e.Graphics.FillRectangle(mLiveCellBrush, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
 
                     }
+                    
+                    //We're adding a number to see how many neighbors the current cell has
+                    if (NeighborCellCheck(x, y) > 0 & NeighborCountValid == true)
+                    {
+                        if (NeighborCellCheck(x, y) == 3 || mSpace[x,y] == true && NeighborCellCheck(x, y) == 2)
+                        {
+                            Font font = new Font("Arial", 10);
+                            Brush CellCountColor = new SolidBrush(Color.Green);
+                            e.Graphics.DrawString(NeighborCellCheck(x, y).ToString(), font, CellCountColor, mRectangle.X, mRectangle.Y);
+                        }
+
+                        else
+                        {
+                            Font font = new Font("Arial", 10);
+                            Brush CellCountColor = new SolidBrush(Color.Red);
+                            e.Graphics.DrawString(NeighborCellCheck(x, y).ToString(), font, CellCountColor, mRectangle.X, mRectangle.Y);
+                        }
+                    }
 
                     e.Graphics.DrawRectangle(mEpipen, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
                 }
@@ -119,6 +137,7 @@ namespace GameOfLife
 
                 e.Graphics.DrawString(hOut, font, Brushes.Blue, shrekt);
             }
+
 
             mEpipen.Dispose();
             mLiveCellBrush.Dispose();
@@ -183,14 +202,8 @@ namespace GameOfLife
 
         }
 
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-        }
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
 
-        }
 
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -222,15 +235,10 @@ namespace GameOfLife
 
         private void neighborCountVisibleToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (neighborCountVisibleToolStripMenuItem.Checked == true)
-            {
-                neighborCountVisibleToolStripMenuItem.Checked = false;
-            }
+            NeighborCountValid = !NeighborCountValid;
+            neighborCountVisibleToolStripMenuItem.Checked = NeighborCountValid;
 
-            else if (neighborCountVisibleToolStripMenuItem.Checked == false)
-            {
-                neighborCountVisibleToolStripMenuItem.Checked = true;
-            }
+            graphicsPanel1.Invalidate();
         }
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
@@ -493,6 +501,185 @@ namespace GameOfLife
 
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            SettingsModalDialog dlg = new SettingsModalDialog();
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                
+            }
+        }
+        //Below you'll find both saves, 1st 1 == dropdown menu item, 2nd 1 == icon click
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            {
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.Filter = "All Files|*.*|Cells|*.cells";
+                dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
+
+
+                if (DialogResult.OK == dlg.ShowDialog())
+                {
+                    StreamWriter writer = new StreamWriter(dlg.FileName);
+
+                    // Write any comments you want to include first.
+                    // Prefix all comment strings with an exclamation point.
+                    // Use WriteLine to write the strings to the file. 
+                    // It appends a CRLF for you.
+                    writer.WriteLine("!Written on Emanuel Antablin's GameOfLife");
+
+                    // Iterate through the universe one row at a time.
+                    for (int y = 0; y < mSpace.GetLength(0); y++)
+                    {
+                        // Create a string to represent the current row.
+                        String currentRow = string.Empty;
+
+                        // Iterate through the current row one cell at a time.
+                        for (int x = 0; x < mSpace.GetLength(1); x++)
+                        {
+                            if (mSpace[x, y] == true)
+                            {
+                                currentRow += 'O';
+                            }
+                            // If the universe[x,y] is alive then append 'O' (capital O)
+                            // to the row string.
+                            else if (mSpace[x, y] == false)
+                            {
+                                currentRow += '.';
+                            }
+                            // Else if the universe[x,y] is dead then append '.' (period)
+                            // to the row string.
+                        }
+
+                        writer.WriteLine(currentRow);
+                        // Once the current row has been read through and the 
+                        // string constructed then write it to the file using WriteLine.
+                    }
+
+                    // After all rows and columns have been written then close the file.
+                    writer.Close();
+                }
+            }
+        }
+        private void saveToolStripButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
+
+            
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamWriter writer = new StreamWriter(dlg.FileName);
+
+                // Write any comments you want to include first.
+                // Prefix all comment strings with an exclamation point.
+                // Use WriteLine to write the strings to the file. 
+                // It appends a CRLF for you.
+                writer.WriteLine("!Written on Emanuel Antablin's GameOfLife");
+
+                // Iterate through the universe one row at a time.
+                for (int y = 0; y < mSpace.GetLength(0); y++)
+                {
+                    // Create a string to represent the current row.
+                    String currentRow = string.Empty;
+
+                    // Iterate through the current row one cell at a time.
+                    for (int x = 0; x < mSpace.GetLength(1); x++)
+                    {
+                        if (mSpace[x,y] == true)
+                        {
+                            currentRow += 'O';
+                        }
+                        // If the universe[x,y] is alive then append 'O' (capital O)
+                        // to the row string.
+                        else if (mSpace[x,y] == false)
+                        {
+                            currentRow += '.';
+                        }
+                        // Else if the universe[x,y] is dead then append '.' (period)
+                        // to the row string.
+                    }
+
+                    writer.WriteLine(currentRow);
+                    // Once the current row has been read through and the 
+                    // string constructed then write it to the file using WriteLine.
+                }
+
+                // After all rows and columns have been written then close the file.
+                writer.Close();
+            }
+        }
+
+
+        //Below you'll find both open's, 1st 1 == dropdown menu item, 2nd 1 == icon click
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Filter = "All Files|*.*|Cells|*.cells";
+            dlg.FilterIndex = 2;
+
+            if (DialogResult.OK == dlg.ShowDialog())
+            {
+                StreamReader reader = new StreamReader(dlg.FileName);
+
+                // Create a couple variables to calculate the width and height
+                // of the data in the file.
+                int maxWidth = 0;
+                int maxHeight = 0;
+
+                for (int i = 0; i < 0; i++)
+                {
+
+                }
+                // Iterate through the file once to get its size.
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then it is a comment
+                    // and should be ignored.
+
+                    // If the row is not a comment then it is a row of cells.
+                    // Increment the maxHeight variable for each row read.
+
+                    // Get the length of the current row string
+                    // and adjust the maxWidth variable if necessary.
+                }
+
+                // Resize the current universe and scratchPad
+                // to the width and height of the file calculated above.
+
+                // Reset the file pointer back to the beginning of the file.
+                reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                // Iterate through the file again, this time reading in the cells.
+                while (!reader.EndOfStream)
+                {
+                    // Read one row at a time.
+                    string row = reader.ReadLine();
+
+                    // If the row begins with '!' then
+                    // it is a comment and should be ignored.
+
+                    // If the row is not a comment then 
+                    // it is a row of cells and needs to be iterated through.
+                    for (int xPos = 0; xPos < row.Length; xPos++)
+                    {
+                        // If row[xPos] is a 'O' (capital O) then
+                        // set the corresponding cell in the universe to alive.
+
+                        // If row[xPos] is a '.' (period) then
+                        // set the corresponding cell in the universe to dead.
+                    }
+                }
+
+                // Close the file.
+                reader.Close();
+            }
+        }
+        private void openToolStripButton_Click(object sender, EventArgs e)
+        {
 
         }
 
@@ -504,6 +691,8 @@ namespace GameOfLife
             timer.Interval = 20;
             timer.Enabled = true;
         }
+
+
     }
 
 
