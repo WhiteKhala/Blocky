@@ -21,6 +21,7 @@ namespace GameOfLife
         //Timer runTo = new Timer();  Might use this
         int mGenerations = 0;
         int mCellCount = 0;
+        int mNCellCount = 0;
         int mSeed = 0;
         int mRunToGen = 0; //This will be for runtodialogbox
         int timerSpeed; //This will set the timer to runto's specifications
@@ -97,11 +98,11 @@ namespace GameOfLife
                         e.Graphics.FillRectangle(mLiveCellBrush, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
 
                     }
-                    
+
                     //We're adding a number to see how many neighbors the current cell has
                     if (NeighborCellCheck(x, y) > 0 & NeighborCountValid == true)
                     {
-                        if (NeighborCellCheck(x, y) == 3 || mSpace[x,y] == true && NeighborCellCheck(x, y) == 2)
+                        if (NeighborCellCheck(x, y) == 3 || mSpace[x, y] == true && NeighborCellCheck(x, y) == 2)
                         {
                             Font font = new Font("Arial", 10);
                             Brush CellCountColor = new SolidBrush(Color.Green);
@@ -191,31 +192,26 @@ namespace GameOfLife
             this.Close();
         }
 
+        //WORK Unsure about this method, once I work on it, we'll see
         private void toolStripStatusLabelGen_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void cutToolStripButton_Click(object sender, EventArgs e)
-        {
-            timer.Enabled = true;
-
-        }
-
-
-
-
+        //WORK This will be our dropdown import utility, needs to be worked on
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
 
+        //This will show whoever clicks on it, the developer and his contact info
         private void helpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutBox1 blg = new AboutBox1();
             blg.ShowDialog();
         }
 
+        //Enables/disables the visibility of our grid (where the cells live)
         private void gridVisibleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mGrid = !mGrid;
@@ -224,7 +220,7 @@ namespace GameOfLife
             graphicsPanel1.Invalidate();
 
         }
-
+        //Enables/disables a bigger representation of useful information
         private void headsUpVisibleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             HUD = !HUD;
@@ -232,7 +228,7 @@ namespace GameOfLife
 
             graphicsPanel1.Invalidate();
         }
-
+        //Activates/deactivates the count of how many neighbors every cell has
         private void neighborCountVisibleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NeighborCountValid = !NeighborCountValid;
@@ -241,16 +237,18 @@ namespace GameOfLife
             graphicsPanel1.Invalidate();
         }
 
+        //WORK Unsure for now gotta check with this one does once I give it something
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
         }
-
+        //WORK Random needs work
         private void randomizeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
 
         }
 
+        //WORK Randomizes our universe, plainly //change it from random to use a timer
         private void fromTimeToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             Array.Clear(mSpace, 0, mSpace.Length);
@@ -295,6 +293,7 @@ namespace GameOfLife
             graphicsPanel1.Invalidate();
         }
 
+        //Cell neighbor check, this will check and return the number of neighbors a cell has (0 - 8)
         private int NeighborCellCheck(int x, int y)
         {
             int ArrayWidth = mSpace.GetLength(0);
@@ -363,11 +362,10 @@ namespace GameOfLife
                     Count++;
                 }
             }
-
             return Count;
-
         }
 
+        //Cell life/death logic (if it'll survive next gen or not)
         private void CellLogic()
         {
             int width = mSpace.GetLength(0);
@@ -416,6 +414,24 @@ namespace GameOfLife
             }
 
         }
+
+        //This method will read all alive cells inside of your current universe
+        public void CellCountCheck()
+        {
+            mCellCount = 0;
+            for (int i = 0; i < mSpace.GetLength(0); i++)
+            {
+                for (int j = 0; j < mSpace.GetLength(1); j++)
+                {
+                    if (mSpace[i, j] == true)
+                    {
+                        mCellCount++;
+                    }
+
+                }
+            }
+        }
+
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mGenerations = 0;
@@ -439,7 +455,7 @@ namespace GameOfLife
             graphicsPanel1.Invalidate();
         }
 
-        private void pasteToolStripButton_Click(object sender, EventArgs e)
+        private void NextToolStripButton_Click(object sender, EventArgs e)
         {
             mGenerations++;
             CellLogic();
@@ -451,7 +467,8 @@ namespace GameOfLife
 
         }
 
-        private void copyToolStripButton_Click(object sender, EventArgs e)
+        //This is the pause button
+        private void PauseToolStripButton_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
         }
@@ -468,47 +485,43 @@ namespace GameOfLife
 
         }
 
+        //Menu start option
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer.Enabled = true;
 
         }
 
+        //Button start option
+        private void StartToolStripButton_Click_1(object sender, EventArgs e)
+        {
+            timer.Enabled = true;
+        }
+
+        //Menu pause option
         private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
         {
             timer.Enabled = false;
         }
 
-        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        //Button pause option
+        private void PauseToolStripButton_Click_1(object sender, EventArgs e)
         {
-
-        }
-        public void CellCountCheck()
-        {
-            mCellCount = 0;
-            for (int i = 0; i < mSpace.GetLength(0); i++)
-            {
-                for (int j = 0; j < mSpace.GetLength(1); j++)
-                {
-                    if (mSpace[i, j] == true)
-                    {
-                        mCellCount++;
-                    }
-
-                }
-            }
+            timer.Enabled = false;
         }
 
+        //WORK This will be the settings ModalDialog Panel
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SettingsModalDialog dlg = new SettingsModalDialog();
 
             if (DialogResult.OK == dlg.ShowDialog())
             {
-                
+
             }
         }
-        //Below you'll find both saves, 1st 1 == dropdown menu item, 2nd 1 == icon click
+
+        //Dropdown menu item save function
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             {
@@ -520,11 +533,6 @@ namespace GameOfLife
                 if (DialogResult.OK == dlg.ShowDialog())
                 {
                     StreamWriter writer = new StreamWriter(dlg.FileName);
-
-                    // Write any comments you want to include first.
-                    // Prefix all comment strings with an exclamation point.
-                    // Use WriteLine to write the strings to the file. 
-                    // It appends a CRLF for you.
                     writer.WriteLine("!Written on Emanuel Antablin's GameOfLife");
 
                     // Iterate through the universe one row at a time.
@@ -560,13 +568,15 @@ namespace GameOfLife
                 }
             }
         }
+
+        //Button save function
         private void saveToolStripButton_Click(object sender, EventArgs e)
         {
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.Filter = "All Files|*.*|Cells|*.cells";
             dlg.FilterIndex = 2; dlg.DefaultExt = "cells";
 
-            
+
             if (DialogResult.OK == dlg.ShowDialog())
             {
                 StreamWriter writer = new StreamWriter(dlg.FileName);
@@ -586,13 +596,13 @@ namespace GameOfLife
                     // Iterate through the current row one cell at a time.
                     for (int x = 0; x < mSpace.GetLength(1); x++)
                     {
-                        if (mSpace[x,y] == true)
+                        if (mSpace[x, y] == true)
                         {
                             currentRow += 'O';
                         }
                         // If the universe[x,y] is alive then append 'O' (capital O)
                         // to the row string.
-                        else if (mSpace[x,y] == false)
+                        else if (mSpace[x, y] == false)
                         {
                             currentRow += '.';
                         }
@@ -610,8 +620,7 @@ namespace GameOfLife
             }
         }
 
-
-        //Below you'll find both open's, 1st 1 == dropdown menu item, 2nd 1 == icon click
+        //WORK Dropdown menu item open function
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
@@ -678,12 +687,16 @@ namespace GameOfLife
                 reader.Close();
             }
         }
+
+        //WORK Button open function
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
 
         }
 
-        //RunTo needs work
+
+
+        //WORK RunTo still needs work
         private void runToToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Run to will have a much faster interval than normal so that the user can just go to whichever position he wants

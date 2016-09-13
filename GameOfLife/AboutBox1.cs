@@ -11,6 +11,7 @@ namespace GameOfLife
 {
     partial class AboutBox1 : Form
     {
+        //Everything in here just customizes the about box!
         public AboutBox1()
         {
             InitializeComponent();
