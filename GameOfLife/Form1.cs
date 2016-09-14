@@ -8,39 +8,41 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-// You've gotta make cellcount work properly, as it stands if you throw rand it won't add anything up, ONLY IF YOU CLICK THEM DOES IT WORK.
+
 namespace GameOfLife
 {
     public partial class Form1 : Form
     {
         int gWidth = 30, gHeight = 30;
         //Shove mwidth, height into both spaces
-        bool[,] mSpace = new bool[30, 30];
-        bool[,] nextSpace = new bool[30, 30];
+        bool[,] mSpace, nextSpace;
         Timer timer = new Timer();
         //Timer runTo = new Timer();  Might use this
         int mGenerations = 0;
         int mCellCount = 0;
-        int mNCellCount = 0;
         int mSeed = 0;
         int mRunToGen = 0; //This will be for runtodialogbox
-        int timerSpeed; //This will set the timer to runto's specifications
+        int timerSpeed = 100; //This will set the timer to runto's specifications
         bool HUD = true;
         bool mGrid = true;
         bool NeighborCountValid = true;
+        Random RandomStartSeed = new Random();
 
         public Form1()
         {
+            mSpace = new bool[gWidth, gHeight];
+            nextSpace = new bool[gWidth, gHeight];
             InitializeComponent();
             timer.Enabled = false;
-            timer.Interval = 100;
+            timer.Interval = timerSpeed;
             timer.Tick += Timer_Tick;
+            mSeed = RandomStartSeed.Next();
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
                    "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
-
         }
 
+        //This resets our universe every tick of our timer
         private void Timer_Tick(object sender, EventArgs e)
         {
             mGenerations++;
@@ -55,17 +57,20 @@ namespace GameOfLife
                 timer.Enabled = false;
             }
 
+            //WORK this is the runTo function
             //if (mGenerations == mRunToGen)
             //{
             //    timer.Enabled = false;
             //}
         }
 
+        //WORK what is this?
         private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
         }
 
+        //WORK This will do all the graphics inside of our panel, the MOST essential part of project
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -77,11 +82,11 @@ namespace GameOfLife
                 mEpipen.Color = Color.Empty;
             }
 
-            //Gotta fix the float math
+            //WORK Gotta fix the float math
             float mWidth = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
             float mHeight = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
 
-
+            //WORK Creating our cell rectangles //Make ints into floats!
             for (int x = 0; x < mSpace.GetLength(0); x++)
             {
                 for (int y = 0; y < mSpace.GetLength(1); y++)
@@ -106,14 +111,14 @@ namespace GameOfLife
                         {
                             Font font = new Font("Arial", 10);
                             Brush CellCountColor = new SolidBrush(Color.Green);
-                            e.Graphics.DrawString(NeighborCellCheck(x, y).ToString(), font, CellCountColor, mRectangle.X, mRectangle.Y);
+                            e.Graphics.DrawString(" " + NeighborCellCheck(x, y).ToString(), font, CellCountColor, mRectangle.X, mRectangle.Y);
                         }
 
                         else
                         {
                             Font font = new Font("Arial", 10);
                             Brush CellCountColor = new SolidBrush(Color.Red);
-                            e.Graphics.DrawString(NeighborCellCheck(x, y).ToString(), font, CellCountColor, mRectangle.X, mRectangle.Y);
+                            e.Graphics.DrawString(" " + NeighborCellCheck(x, y).ToString(), font, CellCountColor, mRectangle.X, mRectangle.Y);
                         }
                     }
 
@@ -134,7 +139,6 @@ namespace GameOfLife
                 hOut += "Cell Count: " + mCellCount + "\n";
                 hOut += "Boundary Type: " + "\n"; //add + mBoundary
                 hOut += "Universe Size: {Width =" + gWidth + ", Height=" + gHeight + "}";
-                //mWidth and mHeight are showing numbers that aren't what I predefined
 
                 e.Graphics.DrawString(hOut, font, Brushes.Blue, shrekt);
             }
@@ -248,13 +252,110 @@ namespace GameOfLife
 
         }
 
-        //WORK Randomizes our universe, plainly //change it from random to use a timer
-        private void fromTimeToolStripMenuItem1_Click(object sender, EventArgs e)
+        //Randomizes the universe with our current seed
+        private void FromCurrentSeedToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Array.Clear(mSpace, 0, mSpace.Length);
             Array.Clear(nextSpace, 0, nextSpace.Length);
 
             //Timer fromTime = new Timer();    //How do we use timer's time to randomize? I know we get a number and mod it, but how?
+            Random rand = new Random(mSeed);
+            for (int i = 0; i < mSpace.GetLength(0); i++)
+            {
+                for (int j = 0; j < mSpace.GetLength(1); j++)
+                {
+                    int x = rand.Next(0, 3);
+                    if (x == 0)
+                    {
+                        nextSpace[i, j] = true;
+                    }
+
+                    else if (x == 1)
+                    {
+                        nextSpace[i, j] = false;
+                    }
+
+                    else if (x == 2)
+                    {
+                        nextSpace[i, j] = false;
+                    }
+
+                }
+            }
+            for (int i = 0; i < mSpace.GetLength(0); i++)
+            {
+                for (int j = 0; j < mSpace.GetLength(1); j++)
+                {
+                    mSpace[i, j] = nextSpace[i, j];
+                }
+            }
+
+            CellCountCheck();
+            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+            "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+
+            graphicsPanel1.Invalidate();
+        }
+
+        //Randomizes the universe with a random or user-set seed
+        private void fromNewSeedToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Array.Clear(mSpace, 0, mSpace.Length);
+            Array.Clear(nextSpace, 0, nextSpace.Length);
+
+            SeedDialog dlg = new SeedDialog();
+            dlg.ShowDialog();
+            mSeed = dlg.GetRandomNumber();
+
+            Array.Clear(mSpace, 0, mSpace.Length);
+            Array.Clear(nextSpace, 0, nextSpace.Length);
+            //Timer fromTime = new Timer();    //How do we use timer's time to randomize? I know we get a number and mod it, but how?
+            Random rand = new Random(mSeed);
+            for (int i = 0; i < mSpace.GetLength(0); i++)
+            {
+                for (int j = 0; j < mSpace.GetLength(1); j++)
+                {
+                    int x = rand.Next(0, 3);
+                    if (x == 0)
+                    {
+                        nextSpace[i, j] = true;
+                    }
+
+                    else if (x == 1)
+                    {
+                        nextSpace[i, j] = false;
+                    }
+
+                    else if (x == 2)
+                    {
+                        nextSpace[i, j] = false;
+                    }
+
+                }
+            }
+            for (int i = 0; i < mSpace.GetLength(0); i++)
+            {
+                for (int j = 0; j < mSpace.GetLength(1); j++)
+                {
+                    mSpace[i, j] = nextSpace[i, j];
+                }
+            }
+
+            mGenerations = 0;
+            CellCountCheck();
+            CellCountCheck();
+            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+            "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+
+            graphicsPanel1.Invalidate();
+        }
+
+        //Randomizes our universe
+        private void fromTimeToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Array.Clear(mSpace, 0, mSpace.Length);
+            Array.Clear(nextSpace, 0, nextSpace.Length);
+
             Random rand = new Random();
             for (int i = 0; i < mSpace.GetLength(0); i++)
             {
@@ -514,11 +615,27 @@ namespace GameOfLife
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SettingsModalDialog dlg = new SettingsModalDialog();
-
-            if (DialogResult.OK == dlg.ShowDialog())
+            dlg.SetTimerInterval(timerSpeed);
+            dlg.SetUWidth(gWidth);
+            dlg.SetUHeight(gHeight);
+            dlg.ShowDialog();
+            if (dlg.GetChoice() == true)
             {
+                Array.Clear(mSpace, 0, mSpace.Length);
+                Array.Clear(nextSpace, 0, nextSpace.Length);
+                mGenerations = 0;
+                mCellCount = 0;
 
+                timerSpeed = dlg.GetTimerInterval();
+                timer.Interval = timerSpeed;
+                gWidth = dlg.GetUWidth();
+                gHeight = dlg.GetUHeight();
+
+                mSpace = new bool[gWidth, gHeight];
+                nextSpace = new bool[gWidth, gHeight];
+                graphicsPanel1.Invalidate();
             }
+
         }
 
         //Dropdown menu item save function
@@ -693,8 +810,6 @@ namespace GameOfLife
         {
 
         }
-
-
 
         //WORK RunTo still needs work
         private void runToToolStripMenuItem_Click(object sender, EventArgs e)
