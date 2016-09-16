@@ -39,6 +39,14 @@
             this.label_UniverseWidth = new System.Windows.Forms.Label();
             this.label_TimerInterval = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.LiveCellColorButton = new System.Windows.Forms.Button();
+            this.BGColorButton = new System.Windows.Forms.Button();
+            this.Gx10ColorButton = new System.Windows.Forms.Button();
+            this.GColorButton = new System.Windows.Forms.Button();
+            this.LiveCellColorLabel = new System.Windows.Forms.Label();
+            this.BackgroundColorLabel = new System.Windows.Forms.Label();
+            this.Gx10ColorLabel = new System.Windows.Forms.Label();
+            this.GColorLabel = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.NoteToroidalLabel = new System.Windows.Forms.Label();
             this.NoteFiniteLabel = new System.Windows.Forms.Label();
@@ -49,14 +57,8 @@
             this.ToroidalradioButton = new System.Windows.Forms.RadioButton();
             this.FiniteradioButton = new System.Windows.Forms.RadioButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.GColorLabel = new System.Windows.Forms.Label();
-            this.Gx10ColorLabel = new System.Windows.Forms.Label();
-            this.BackgroundColorLabel = new System.Windows.Forms.Label();
-            this.LiveCellColorLabel = new System.Windows.Forms.Label();
-            this.GColorButton = new System.Windows.Forms.Button();
-            this.Gx10ColorButton = new System.Windows.Forms.Button();
-            this.BGColorButton = new System.Windows.Forms.Button();
-            this.LiveCellColorButton = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_UHeight)).BeginInit();
@@ -102,6 +104,8 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Controls.Add(this.numericUpDown_UHeight);
             this.tabPage1.Controls.Add(this.numericUpDown_UWidth);
             this.tabPage1.Controls.Add(this.numericUpDown_TimerInterval);
@@ -198,6 +202,79 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "View";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // LiveCellColorButton
+            // 
+            this.LiveCellColorButton.BackColor = System.Drawing.Color.Transparent;
+            this.LiveCellColorButton.Location = new System.Drawing.Point(23, 93);
+            this.LiveCellColorButton.Name = "LiveCellColorButton";
+            this.LiveCellColorButton.Size = new System.Drawing.Size(47, 23);
+            this.LiveCellColorButton.TabIndex = 7;
+            this.LiveCellColorButton.UseVisualStyleBackColor = false;
+            this.LiveCellColorButton.Click += new System.EventHandler(this.LiveCellColorButton_Click);
+            // 
+            // BGColorButton
+            // 
+            this.BGColorButton.Location = new System.Drawing.Point(23, 64);
+            this.BGColorButton.Name = "BGColorButton";
+            this.BGColorButton.Size = new System.Drawing.Size(47, 23);
+            this.BGColorButton.TabIndex = 6;
+            this.BGColorButton.UseVisualStyleBackColor = true;
+            this.BGColorButton.Click += new System.EventHandler(this.BGColorButton_Click);
+            // 
+            // Gx10ColorButton
+            // 
+            this.Gx10ColorButton.Location = new System.Drawing.Point(23, 35);
+            this.Gx10ColorButton.Name = "Gx10ColorButton";
+            this.Gx10ColorButton.Size = new System.Drawing.Size(47, 23);
+            this.Gx10ColorButton.TabIndex = 5;
+            this.Gx10ColorButton.UseVisualStyleBackColor = true;
+            this.Gx10ColorButton.Click += new System.EventHandler(this.Gx10ColorButton_Click);
+            // 
+            // GColorButton
+            // 
+            this.GColorButton.Location = new System.Drawing.Point(23, 6);
+            this.GColorButton.Name = "GColorButton";
+            this.GColorButton.Size = new System.Drawing.Size(47, 23);
+            this.GColorButton.TabIndex = 4;
+            this.GColorButton.UseVisualStyleBackColor = true;
+            this.GColorButton.Click += new System.EventHandler(this.GColorButton_Click);
+            // 
+            // LiveCellColorLabel
+            // 
+            this.LiveCellColorLabel.AutoSize = true;
+            this.LiveCellColorLabel.Location = new System.Drawing.Point(76, 98);
+            this.LiveCellColorLabel.Name = "LiveCellColorLabel";
+            this.LiveCellColorLabel.Size = new System.Drawing.Size(74, 13);
+            this.LiveCellColorLabel.TabIndex = 3;
+            this.LiveCellColorLabel.Text = "Live Cell Color";
+            // 
+            // BackgroundColorLabel
+            // 
+            this.BackgroundColorLabel.AutoSize = true;
+            this.BackgroundColorLabel.Location = new System.Drawing.Point(76, 69);
+            this.BackgroundColorLabel.Name = "BackgroundColorLabel";
+            this.BackgroundColorLabel.Size = new System.Drawing.Size(92, 13);
+            this.BackgroundColorLabel.TabIndex = 2;
+            this.BackgroundColorLabel.Text = "Background Color";
+            // 
+            // Gx10ColorLabel
+            // 
+            this.Gx10ColorLabel.AutoSize = true;
+            this.Gx10ColorLabel.Location = new System.Drawing.Point(76, 40);
+            this.Gx10ColorLabel.Name = "Gx10ColorLabel";
+            this.Gx10ColorLabel.Size = new System.Drawing.Size(73, 13);
+            this.Gx10ColorLabel.TabIndex = 1;
+            this.Gx10ColorLabel.Text = "Grid x10 Color";
+            // 
+            // GColorLabel
+            // 
+            this.GColorLabel.AutoSize = true;
+            this.GColorLabel.Location = new System.Drawing.Point(76, 11);
+            this.GColorLabel.Name = "GColorLabel";
+            this.GColorLabel.Size = new System.Drawing.Size(53, 13);
+            this.GColorLabel.TabIndex = 0;
+            this.GColorLabel.Text = "Grid Color";
             // 
             // tabPage3
             // 
@@ -299,78 +376,25 @@
             this.FiniteradioButton.Text = "Finite";
             this.FiniteradioButton.UseVisualStyleBackColor = true;
             // 
-            // GColorLabel
+            // label1
             // 
-            this.GColorLabel.AutoSize = true;
-            this.GColorLabel.Location = new System.Drawing.Point(76, 11);
-            this.GColorLabel.Name = "GColorLabel";
-            this.GColorLabel.Size = new System.Drawing.Size(53, 13);
-            this.GColorLabel.TabIndex = 0;
-            this.GColorLabel.Text = "Grid Color";
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.Location = new System.Drawing.Point(7, 96);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(380, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Warning! Unless you\'re using close to the base intervals (Width: 30, Height: 30)";
             // 
-            // Gx10ColorLabel
+            // label2
             // 
-            this.Gx10ColorLabel.AutoSize = true;
-            this.Gx10ColorLabel.Location = new System.Drawing.Point(76, 40);
-            this.Gx10ColorLabel.Name = "Gx10ColorLabel";
-            this.Gx10ColorLabel.Size = new System.Drawing.Size(73, 13);
-            this.Gx10ColorLabel.TabIndex = 1;
-            this.Gx10ColorLabel.Text = "Grid x10 Color";
-            // 
-            // BackgroundColorLabel
-            // 
-            this.BackgroundColorLabel.AutoSize = true;
-            this.BackgroundColorLabel.Location = new System.Drawing.Point(76, 69);
-            this.BackgroundColorLabel.Name = "BackgroundColorLabel";
-            this.BackgroundColorLabel.Size = new System.Drawing.Size(92, 13);
-            this.BackgroundColorLabel.TabIndex = 2;
-            this.BackgroundColorLabel.Text = "Background Color";
-            // 
-            // LiveCellColorLabel
-            // 
-            this.LiveCellColorLabel.AutoSize = true;
-            this.LiveCellColorLabel.Location = new System.Drawing.Point(76, 98);
-            this.LiveCellColorLabel.Name = "LiveCellColorLabel";
-            this.LiveCellColorLabel.Size = new System.Drawing.Size(74, 13);
-            this.LiveCellColorLabel.TabIndex = 3;
-            this.LiveCellColorLabel.Text = "Live Cell Color";
-            // 
-            // GColorButton
-            // 
-            this.GColorButton.Location = new System.Drawing.Point(23, 6);
-            this.GColorButton.Name = "GColorButton";
-            this.GColorButton.Size = new System.Drawing.Size(47, 23);
-            this.GColorButton.TabIndex = 4;
-            this.GColorButton.UseVisualStyleBackColor = true;
-            this.GColorButton.Click += new System.EventHandler(this.GColorButton_Click);
-            // 
-            // Gx10ColorButton
-            // 
-            this.Gx10ColorButton.Location = new System.Drawing.Point(23, 35);
-            this.Gx10ColorButton.Name = "Gx10ColorButton";
-            this.Gx10ColorButton.Size = new System.Drawing.Size(47, 23);
-            this.Gx10ColorButton.TabIndex = 5;
-            this.Gx10ColorButton.UseVisualStyleBackColor = true;
-            this.Gx10ColorButton.Click += new System.EventHandler(this.Gx10ColorButton_Click);
-            // 
-            // BGColorButton
-            // 
-            this.BGColorButton.Location = new System.Drawing.Point(23, 64);
-            this.BGColorButton.Name = "BGColorButton";
-            this.BGColorButton.Size = new System.Drawing.Size(47, 23);
-            this.BGColorButton.TabIndex = 6;
-            this.BGColorButton.UseVisualStyleBackColor = true;
-            this.BGColorButton.Click += new System.EventHandler(this.BGColorButton_Click);
-            // 
-            // LiveCellColorButton
-            // 
-            this.LiveCellColorButton.BackColor = System.Drawing.Color.Transparent;
-            this.LiveCellColorButton.Location = new System.Drawing.Point(23, 93);
-            this.LiveCellColorButton.Name = "LiveCellColorButton";
-            this.LiveCellColorButton.Size = new System.Drawing.Size(47, 23);
-            this.LiveCellColorButton.TabIndex = 7;
-            this.LiveCellColorButton.UseVisualStyleBackColor = false;
-            this.LiveCellColorButton.Click += new System.EventHandler(this.LiveCellColorButton_Click);
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.Location = new System.Drawing.Point(10, 113);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(145, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "neighbor counter will overlap!";
             // 
             // SettingsModalDialog
             // 
@@ -378,7 +402,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.button_Cancel;
-            this.ClientSize = new System.Drawing.Size(522, 398);
+            this.ClientSize = new System.Drawing.Size(528, 390);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.button_Cancel);
             this.Controls.Add(this.button_OK);
@@ -435,5 +459,7 @@
         private System.Windows.Forms.Label Gx10ColorLabel;
         private System.Windows.Forms.Label GColorLabel;
         private System.Windows.Forms.ColorDialog colorDialog1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }

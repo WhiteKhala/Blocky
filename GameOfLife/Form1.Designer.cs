@@ -259,7 +259,7 @@
             this.FromCurrentSeedToolStripMenuItem,
             this.fromNewSeedToolStripMenuItem1});
             this.randomizeToolStripMenuItem1.Name = "randomizeToolStripMenuItem1";
-            this.randomizeToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.randomizeToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
             this.randomizeToolStripMenuItem1.Text = "Randomize";
             this.randomizeToolStripMenuItem1.Click += new System.EventHandler(this.randomizeToolStripMenuItem1_Click);
             // 
@@ -287,18 +287,18 @@
             // customizeToolStripMenuItem
             // 
             this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.customizeToolStripMenuItem.Text = "&Customize";
             // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(149, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(130, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -308,7 +308,7 @@
             this.resetToolStripMenuItem1,
             this.reloadToolStripMenuItem1});
             this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
-            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
             this.settingsToolStripMenuItem1.Text = "Settings";
             // 
             // resetToolStripMenuItem1
@@ -433,8 +433,8 @@
             this.graphicsPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.graphicsPanel1.Location = new System.Drawing.Point(0, 49);
             this.graphicsPanel1.Name = "graphicsPanel1";
-            this.graphicsPanel1.Size = new System.Drawing.Size(631, 468);
-            this.graphicsPanel1.TabIndex = 2;
+            this.graphicsPanel1.Size = new System.Drawing.Size(631, 446);
+            this.graphicsPanel1.TabIndex = 4;
             this.graphicsPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.graphicsPanel1_Paint);
             this.graphicsPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.graphicsPanel1_MouseClick);
             // 
@@ -443,8 +443,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(631, 517);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.graphicsPanel1);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -484,7 +484,6 @@
         private System.Windows.Forms.ToolStripButton StartToolStripButton;
         private System.Windows.Forms.ToolStripButton PauseToolStripButton;
         private System.Windows.Forms.ToolStripButton NextToolStripButton;
-        private GraphicsPanel graphicsPanel1;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabelGen;
         private System.Windows.Forms.ToolStripMenuItem randomizeToolStripMenuItem1;
@@ -505,6 +504,7 @@
         private System.Windows.Forms.ToolStripMenuItem neighborCountVisibleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
+        private GraphicsPanel graphicsPanel1;
     }
 }
 

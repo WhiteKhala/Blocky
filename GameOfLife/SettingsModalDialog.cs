@@ -12,6 +12,7 @@ namespace GameOfLife
 {
     public partial class SettingsModalDialog : Form
     {
+        Form1 Grabber = new Form1();
         bool AcceptChoices = false;
         public SettingsModalDialog()
         {
@@ -40,6 +41,9 @@ namespace GameOfLife
             }
         }
 
+        public void SetGridColor(Color _color) { GColorButton.BackColor = _color; }
+        public Color GetGridColor() { return GColorButton.BackColor; }
+
         private void Gx10ColorButton_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -52,10 +56,12 @@ namespace GameOfLife
             }
         }
 
+        public void SetGx10Color(Color _color) { Gx10ColorButton.BackColor = _color; }
+        public Color GetGx10Color() { return Gx10ColorButton.BackColor; }
+
         private void BGColorButton_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
-
             dlg.Color = BGColorButton.BackColor;
 
             if (DialogResult.OK == dlg.ShowDialog())
@@ -63,6 +69,8 @@ namespace GameOfLife
                 BGColorButton.BackColor = dlg.Color;
             }
         }
+        public void SetBGColor(Color _color) { BGColorButton.BackColor = _color; }
+        public Color GetBGColor() { return BGColorButton.BackColor; }
 
         private void LiveCellColorButton_Click(object sender, EventArgs e)
         {
@@ -75,6 +83,10 @@ namespace GameOfLife
                 LiveCellColorButton.BackColor = dlg.Color;
             }
         }
+
+        public void SetLiveCellColor(Color _color) { LiveCellColorButton.BackColor = _color; }
+        public Color GetLiveCellColor() { return LiveCellColorButton.BackColor; }
+
 
         private void button_OK_Click(object sender, EventArgs e)
         {

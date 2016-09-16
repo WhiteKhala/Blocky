@@ -27,7 +27,10 @@ namespace GameOfLife
         bool mGrid = true;
         bool NeighborCountValid = true;
         Random RandomStartSeed = new Random();
-
+        Color GridColor = Color.Gray;
+        Color Gridx10Color = Color.Black;
+        Color AliveCellColor = Color.DarkGray;
+        Color BackGroundColor = Color.White;
         public Form1()
         {
             mSpace = new bool[gWidth, gHeight];
@@ -74,17 +77,20 @@ namespace GameOfLife
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
 
-            Pen mEpipen = new Pen(Color.Gray, 1);
-            Brush mLiveCellBrush = new SolidBrush(Color.DarkGray);
+            Pen mEpipen = new Pen(GridColor, 1);
+            Pen Gridx10 = new Pen(Gridx10Color, 2); //Have to install x10 grid
+            Brush mLiveCellBrush = new SolidBrush(AliveCellColor);
+            graphicsPanel1.BackColor = BackGroundColor; 
 
             if (mGrid == false)
             {
                 mEpipen.Color = Color.Empty;
+                Gridx10.Color = Color.Empty;
             }
-
+            
             //WORK Gotta fix the float math
-            float mWidth = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
-            float mHeight = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
+            float mWidth = graphicsPanel1.ClientSize.Width / Convert.ToSingle(mSpace.GetLength(0));
+            float mHeight = graphicsPanel1.ClientSize.Height / Convert.ToSingle(mSpace.GetLength(1));
 
             //WORK Creating our cell rectangles //Make ints into floats!
             for (int x = 0; x < mSpace.GetLength(0); x++)
@@ -93,8 +99,8 @@ namespace GameOfLife
                 {
                     RectangleF mRectangle = RectangleF.Empty;
 
-                    mRectangle.X = (float)x * mWidth;
-                    mRectangle.Y = (float)y * mHeight;
+                    mRectangle.X = (float)(x * mWidth);
+                    mRectangle.Y = (float)(y * mHeight);
                     mRectangle.Width = mWidth;
                     mRectangle.Height = mHeight;
 
@@ -103,6 +109,7 @@ namespace GameOfLife
                         e.Graphics.FillRectangle(mLiveCellBrush, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
 
                     }
+                    
 
                     //We're adding a number to see how many neighbors the current cell has
                     if (NeighborCellCheck(x, y) > 0 & NeighborCountValid == true)
@@ -121,7 +128,16 @@ namespace GameOfLife
                             e.Graphics.DrawString(" " + NeighborCellCheck(x, y).ToString(), font, CellCountColor, mRectangle.X, mRectangle.Y);
                         }
                     }
+                    //Work on grid x 10 lines
+                    if (x == 10 || x == 20 || x == 30)
+                    {
+                        e.Graphics.DrawLine(Gridx10, x, mHeight, mWidth, mHeight); 
+                    }
 
+                    if (y == 10 || y == 20 || y == 30)
+                    {
+                        e.Graphics.DrawLine(Gridx10, mWidth, y, mWidth, mHeight); 
+                    }
                     e.Graphics.DrawRectangle(mEpipen, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
                 }
             }
@@ -134,7 +150,7 @@ namespace GameOfLife
                 stringFormat.Alignment = StringAlignment.Near;
                 stringFormat.LineAlignment = StringAlignment.Far;
 
-                Rectangle shrekt = new Rectangle(0, graphicsPanel1.ClientSize.Height - 100, 300, 100);
+                Rectangle shrekt = new Rectangle(0, graphicsPanel1.ClientSize.Height - 73, 300, 100);
                 string hOut = "Generations: " + mGenerations.ToString() + "\n";
                 hOut += "Cell Count: " + mCellCount + "\n";
                 hOut += "Boundary Type: " + "\n"; //add + mBoundary
@@ -142,8 +158,6 @@ namespace GameOfLife
 
                 e.Graphics.DrawString(hOut, font, Brushes.Blue, shrekt);
             }
-
-
             mEpipen.Dispose();
             mLiveCellBrush.Dispose();
 
@@ -158,11 +172,11 @@ namespace GameOfLife
         {
             if (e.Button == MouseButtons.Left)
             {
-                int width = graphicsPanel1.ClientSize.Width / mSpace.GetLength(0);
-                int height = graphicsPanel1.ClientSize.Height / mSpace.GetLength(1);
+                float width = graphicsPanel1.ClientSize.Width / Convert.ToSingle(mSpace.GetLength(0));
+                float height = graphicsPanel1.ClientSize.Height / Convert.ToSingle(mSpace.GetLength(1));
 
-                int x = e.X / width;
-                int y = e.Y / height;
+                int x = (int)(e.X / width);
+                int y = (int)(e.Y / height);
                 if (mSpace[x, y] == false)
                 {
                     mSpace[x, y] = !mSpace[x, y];
@@ -615,6 +629,10 @@ namespace GameOfLife
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SettingsModalDialog dlg = new SettingsModalDialog();
+            dlg.SetBGColor(BackGroundColor);
+            dlg.SetGridColor(GridColor);
+            dlg.SetGx10Color(Gridx10Color);
+            dlg.SetLiveCellColor(AliveCellColor);
             dlg.SetTimerInterval(timerSpeed);
             dlg.SetUWidth(gWidth);
             dlg.SetUHeight(gHeight);
@@ -625,7 +643,10 @@ namespace GameOfLife
                 Array.Clear(nextSpace, 0, nextSpace.Length);
                 mGenerations = 0;
                 mCellCount = 0;
-
+                BackGroundColor = dlg.GetBGColor();
+                AliveCellColor = dlg.GetLiveCellColor();
+                GridColor = dlg.GetGridColor();
+                Gridx10Color = dlg.GetGx10Color(); 
                 timerSpeed = dlg.GetTimerInterval();
                 timer.Interval = timerSpeed;
                 gWidth = dlg.GetUWidth();
