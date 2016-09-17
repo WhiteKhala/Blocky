@@ -31,6 +31,7 @@ namespace GameOfLife
         Color Gridx10Color = Color.Black;
         Color AliveCellColor = Color.DarkGray;
         Color BackGroundColor = Color.White;
+        string BoundaryType = "Finite";
         public Form1()
         {
             mSpace = new bool[gWidth, gHeight];
@@ -42,7 +43,7 @@ namespace GameOfLife
             mSeed = RandomStartSeed.Next();
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-                   "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+                   "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
         }
 
         //This resets our universe every tick of our timer
@@ -52,7 +53,7 @@ namespace GameOfLife
             CellLogic();
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-                               "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+                               "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
             graphicsPanel1.Invalidate();
 
             if (mCellCount == 0)
@@ -129,18 +130,32 @@ namespace GameOfLife
                         }
                     }
                     //Work on grid x 10 lines
-                    if (x == 10 || x == 20 || x == 30)
-                    {
-                        e.Graphics.DrawLine(Gridx10, x, mHeight, mWidth, mHeight); 
-                    }
 
-                    if (y == 10 || y == 20 || y == 30)
-                    {
-                        e.Graphics.DrawLine(Gridx10, mWidth, y, mWidth, mHeight); 
-                    }
                     e.Graphics.DrawRectangle(mEpipen, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
                 }
             }
+
+            int GridWidth = graphicsPanel1.ClientSize.Width;
+            int GridHeight = graphicsPanel1.ClientSize.Height;
+            //for (int x = 0; x < GridWidth; x++)
+            //{
+            //    for (int y = 0; y < GridHeight; y++)
+            //    {
+            //        if (x == 10)
+            //        {
+            //            e.Graphics.DrawLine(Gridx10, x, y, GridWidth, GridHeight);
+            //            continue;
+            //        }
+
+            //        if (y == 10)
+            //        {
+            //            e.Graphics.DrawLine(Gridx10, x, y, GridWidth, GridHeight);
+            //            break;
+            //        }
+            //    }
+            //}
+
+
 
             if (HUD)
             {
@@ -183,7 +198,7 @@ namespace GameOfLife
                     CellCountCheck();
                     graphicsPanel1.Invalidate();
                     toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-                    "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+                    "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
 
                 }
 
@@ -193,7 +208,7 @@ namespace GameOfLife
                     CellCountCheck();
                     graphicsPanel1.Invalidate();
                     toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-                    "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+                    "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
                 }
 
             }
@@ -306,7 +321,7 @@ namespace GameOfLife
 
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-            "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+            "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
 
             graphicsPanel1.Invalidate();
         }
@@ -359,7 +374,7 @@ namespace GameOfLife
             CellCountCheck();
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-            "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+            "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
 
             graphicsPanel1.Invalidate();
         }
@@ -403,7 +418,7 @@ namespace GameOfLife
 
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-            "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+            "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
 
             graphicsPanel1.Invalidate();
         }
@@ -415,68 +430,170 @@ namespace GameOfLife
             int ArrayHeight = mSpace.GetLength(1);
 
             int Count = 0;
-
-            if (x != ArrayWidth - 1)
+            if (BoundaryType == "Finite") // Finite Boundary
             {
-                if (mSpace[x + 1, y] == true)
-                    Count++;
-            }
-
-            if (x != ArrayWidth - 1 && y != ArrayHeight - 1)
-            {
-                if (mSpace[x + 1, y + 1] == true)
+                if (x != ArrayWidth - 1)
                 {
-                    Count++;
+                    if (mSpace[x + 1, y] == true)
+                        Count++;
+                }
+
+                if (x != ArrayWidth - 1 && y != ArrayHeight - 1)
+                {
+                    if (mSpace[x + 1, y + 1] == true)
+                    {
+                        Count++;
+                    }
+                }
+
+                if (y != ArrayHeight - 1)
+                {
+                    if (mSpace[x, y + 1] == true)
+                    {
+                        Count++;
+                    }
+                }
+
+                if (x != 0 && y != ArrayHeight - 1)
+                {
+                    if (mSpace[x - 1, y + 1] == true)
+                    {
+                        Count++;
+                    }
+                }
+
+                if (x != 0)
+                {
+                    if (mSpace[x - 1, y] == true)
+                    {
+                        Count++;
+                    }
+                }
+
+                if (x != 0 && y != 0)
+                {
+                    if (mSpace[x - 1, y - 1] == true)
+                    {
+                        Count++;
+                    }
+                }
+
+                if (y != 0)
+                {
+                    if (mSpace[x, y - 1] == true)
+                    {
+                        Count++;
+                    }
+                }
+
+                if (x != ArrayWidth - 1 && y != 0)
+                {
+                    if (mSpace[x + 1, y - 1] == true)
+                    {
+                        Count++;
+                    }
                 }
             }
 
-            if (y != ArrayHeight - 1)
+            else if (BoundaryType == "Toroidal") //Toroidal boundary
             {
-                if (mSpace[x, y + 1] == true)
+                if (x != ArrayWidth - 1 && y != 0)
                 {
-                    Count++;
+                    if (mSpace[x + 1, y - 1])
+                        Count++;
                 }
-            }
+                else if (x == ArrayWidth - 1 && y != 0)
+                {
+                    if (mSpace[0, y - 1])
+                        Count++;
+                }
 
-            if (x != 0 && y != ArrayHeight - 1)
-            {
-                if (mSpace[x - 1, y + 1] == true)
+                if (x != ArrayWidth - 1)
                 {
-                    Count++;
+                    if (mSpace[x + 1, y])
+                        Count++;
                 }
-            }
+                else if (x == ArrayWidth - 1)
+                {
+                    if (mSpace[0, y])
+                        Count++;
+                }
 
-            if (x != 0)
-            {
-                if (mSpace[x - 1, y] == true)
+                if (x != ArrayWidth - 1 && y != ArrayHeight - 1)
                 {
-                    Count++;
+                    if (mSpace[x + 1, y + 1])
+                        Count++;
                 }
-            }
+                else if (x == ArrayWidth - 1 && y != ArrayHeight - 1)
+                {
+                    if (mSpace[0, y + 1])
+                        Count++;
+                }
 
-            if (x != 0 && y != 0)
-            {
-                if (mSpace[x - 1, y - 1] == true)
+                if (y != ArrayHeight - 1)
                 {
-                    Count++;
+                    if (mSpace[x, y + 1])
+                        Count++;
                 }
-            }
+                else if (y == ArrayHeight - 1 && x != 0 && x != ArrayWidth - 1)
+                {
+                    if (mSpace[x, 0])
+                        Count++;
+                    if (mSpace[x + 1, 0])
+                        Count++;
+                    if (mSpace[x - 1, 0])
+                        Count++;
+                }
 
-            if (y != 0)
-            {
-                if (mSpace[x, y - 1] == true)
+                if (x != 0 && y != ArrayHeight - 1)
                 {
-                    Count++;
+                    if (mSpace[x - 1, y + 1])
+                        Count++;
                 }
-            }
+                else if (x == 0 && y != ArrayHeight - 1)
+                {
+                    if (mSpace[ArrayHeight - 1, y + 1])
+                        Count++;
+                }
 
-            if (x != ArrayWidth - 1 && y != 0)
-            {
-                if (mSpace[x + 1, y - 1] == true)
+                if (x != 0)
                 {
-                    Count++;
+                    if (mSpace[x - 1, y])
+                        Count++;
+                }
+                else if (x == 0)
+                {
+                    if (mSpace[ArrayWidth - 1, y])
+                        Count++;
+                }
+
+                if (x != 0 && y != 0)
+                {
+                    if (mSpace[x - 1, y - 1])
+                        Count++;
+                }
+                else if (x == 0 && y != 0)
+                {
+                    if (mSpace[ArrayWidth - 1, y - 1])
+                        Count++;
+                }
+
+                if (y != 0)
+                {
+                    if (mSpace[x, y - 1])
+                        Count++;
+                }
+                else if (y == 0 && x != 0 && x != ArrayWidth - 1)
+                {
+                    if (mSpace[x, ArrayHeight - 1])
+                        Count++;
+                    if (mSpace[x + 1, ArrayHeight - 1])
+                        Count++;
+                    if (mSpace[x - 1, ArrayHeight - 1])
+                        Count++;
                 }
             }
+        
             return Count;
         }
 
@@ -554,7 +671,7 @@ namespace GameOfLife
             Array.Clear(nextSpace, 0, nextSpace.Length);
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-            "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+            "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
             graphicsPanel1.Invalidate();
         }
 
@@ -566,7 +683,7 @@ namespace GameOfLife
             Array.Clear(nextSpace, 0, nextSpace.Length);
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-            "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+            "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
             graphicsPanel1.Invalidate();
         }
 
@@ -578,7 +695,7 @@ namespace GameOfLife
             graphicsPanel1.Invalidate();
 
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-                   "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+                   "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
 
         }
 
@@ -596,7 +713,7 @@ namespace GameOfLife
             graphicsPanel1.Invalidate();
 
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-                   "      Seed: " + mSeed + "       Boundary: " /*+ mBoundary + */;
+                   "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
 
         }
 
@@ -636,6 +753,15 @@ namespace GameOfLife
             dlg.SetTimerInterval(timerSpeed);
             dlg.SetUWidth(gWidth);
             dlg.SetUHeight(gHeight);
+            if (BoundaryType == "Finite")
+            {
+                dlg.SetisFinite(true);
+            }
+            else if (BoundaryType == "Toroidal")
+            {
+                dlg.SetisToroidal(true);
+            }
+
             dlg.ShowDialog();
             if (dlg.GetChoice() == true)
             {
@@ -651,6 +777,14 @@ namespace GameOfLife
                 timer.Interval = timerSpeed;
                 gWidth = dlg.GetUWidth();
                 gHeight = dlg.GetUHeight();
+                if (dlg.GetisFinite() == true)
+                {
+                    BoundaryType = "Finite";
+                }
+                else if (dlg.GetisToroidal() == true)
+                {
+                    BoundaryType = "Toroidal";
+                }
 
                 mSpace = new bool[gWidth, gHeight];
                 nextSpace = new bool[gWidth, gHeight];

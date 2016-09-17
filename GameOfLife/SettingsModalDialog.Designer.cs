@@ -32,6 +32,8 @@
             this.button_Cancel = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.numericUpDown_UHeight = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_UWidth = new System.Windows.Forms.NumericUpDown();
             this.numericUpDown_TimerInterval = new System.Windows.Forms.NumericUpDown();
@@ -57,8 +59,6 @@
             this.ToroidalradioButton = new System.Windows.Forms.RadioButton();
             this.FiniteradioButton = new System.Windows.Forms.RadioButton();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_UHeight)).BeginInit();
@@ -119,6 +119,26 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "General";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.Location = new System.Drawing.Point(10, 113);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(145, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "neighbor counter will overlap!";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.ForeColor = System.Drawing.Color.Red;
+            this.label1.Location = new System.Drawing.Point(7, 96);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(380, 13);
+            this.label1.TabIndex = 6;
+            this.label1.Text = "Warning! Unless you\'re using close to the base intervals (Width: 30, Height: 30)";
             // 
             // numericUpDown_UHeight
             // 
@@ -363,6 +383,7 @@
             this.ToroidalradioButton.TabStop = true;
             this.ToroidalradioButton.Text = "Toroidal";
             this.ToroidalradioButton.UseVisualStyleBackColor = true;
+            this.ToroidalradioButton.CheckedChanged += new System.EventHandler(this.ToroidalradioButton_CheckedChanged);
             // 
             // FiniteradioButton
             // 
@@ -375,26 +396,7 @@
             this.FiniteradioButton.TabStop = true;
             this.FiniteradioButton.Text = "Finite";
             this.FiniteradioButton.UseVisualStyleBackColor = true;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.ForeColor = System.Drawing.Color.Red;
-            this.label1.Location = new System.Drawing.Point(7, 96);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(380, 13);
-            this.label1.TabIndex = 6;
-            this.label1.Text = "Warning! Unless you\'re using close to the base intervals (Width: 30, Height: 30)";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.ForeColor = System.Drawing.Color.Red;
-            this.label2.Location = new System.Drawing.Point(10, 113);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(145, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "neighbor counter will overlap!";
+            this.FiniteradioButton.CheckedChanged += new System.EventHandler(this.FiniteradioButton_CheckedChanged);
             // 
             // SettingsModalDialog
             // 
