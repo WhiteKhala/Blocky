@@ -61,7 +61,7 @@ namespace GameOfLife
                 timer.Enabled = false;
             }
 
-            //WORK this is the runTo function
+            //This is the runTo function it stops once RunTo reaches the gen we want, and sets speed back to our value
             if (mGenerations == mRunToGen)
             {
                 timer.Enabled = false;
