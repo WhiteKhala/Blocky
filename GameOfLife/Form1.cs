@@ -21,7 +21,7 @@ namespace GameOfLife
         int mGenerations = 0;
         int mCellCount = 0;
         int mSeed = 0;
-        int mRunToGen = 0; //This will be for runtodialogbox
+        int mRunToGen; //This will be for runtodialogbox
         int timerSpeed = 100; //This will set the timer to runto's specifications
         bool HUD = true;
         bool mGrid = true;
@@ -62,10 +62,11 @@ namespace GameOfLife
             }
 
             //WORK this is the runTo function
-            //if (mGenerations == mRunToGen)
-            //{
-            //    timer.Enabled = false;
-            //}
+            if (mGenerations == mRunToGen)
+            {
+                timer.Enabled = false;
+                timer.Interval = timerSpeed;
+            }
         }
 
         //WORK what is this?
@@ -132,28 +133,33 @@ namespace GameOfLife
                     //Work on grid x 10 lines
 
                     e.Graphics.DrawRectangle(mEpipen, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
+
+                    //if (HUD)
+                    //{
+                    //    int GridWidth = graphicsPanel1.ClientSize.Width;
+                    //    int GridHeight = graphicsPanel1.ClientSize.Height;
+                    //    for (int i = 0; x < GridWidth; i++)
+                    //    {
+                    //        for (int j = 0; j < GridHeight; j += 10)
+                    //        {
+                    //            if (i == 10)
+                    //            {
+                    //                e.Graphics.DrawLine(Gridx10, mRectangle.X, 0, mRectangle.X, 0);
+                    //                continue;
+                    //            }
+
+                    //            if (j == 10)
+                    //            {
+                    //                e.Graphics.DrawLine(Gridx10, 0, j, 0, GridHeight);
+                    //                continue;
+                    //            }
+                    //        }
+                    //    }
+                    //}
                 }
             }
 
-            int GridWidth = graphicsPanel1.ClientSize.Width;
-            int GridHeight = graphicsPanel1.ClientSize.Height;
-            //for (int x = 0; x < GridWidth; x++)
-            //{
-            //    for (int y = 0; y < GridHeight; y++)
-            //    {
-            //        if (x == 10)
-            //        {
-            //            e.Graphics.DrawLine(Gridx10, x, y, GridWidth, GridHeight);
-            //            continue;
-            //        }
 
-            //        if (y == 10)
-            //        {
-            //            e.Graphics.DrawLine(Gridx10, x, y, GridWidth, GridHeight);
-            //            break;
-            //        }
-            //    }
-            //}
 
 
 
@@ -168,7 +174,7 @@ namespace GameOfLife
                 Rectangle shrekt = new Rectangle(0, graphicsPanel1.ClientSize.Height - 73, 300, 100);
                 string hOut = "Generations: " + mGenerations.ToString() + "\n";
                 hOut += "Cell Count: " + mCellCount + "\n";
-                hOut += "Boundary Type: " + "\n"; //add + mBoundary
+                hOut += "Boundary Type: " + BoundaryType + "\n"; 
                 hOut += "Universe Size: {Width =" + gWidth + ", Height=" + gHeight + "}";
 
                 e.Graphics.DrawString(hOut, font, Brushes.Blue, shrekt);
@@ -286,8 +292,6 @@ namespace GameOfLife
         {
             Array.Clear(mSpace, 0, mSpace.Length);
             Array.Clear(nextSpace, 0, nextSpace.Length);
-
-            //Timer fromTime = new Timer();    //How do we use timer's time to randomize? I know we get a number and mod it, but how?
             Random rand = new Random(mSeed);
             for (int i = 0; i < mSpace.GetLength(0); i++)
             {
@@ -319,6 +323,7 @@ namespace GameOfLife
                 }
             }
 
+            mGenerations = 0;
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
             "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
@@ -338,7 +343,6 @@ namespace GameOfLife
 
             Array.Clear(mSpace, 0, mSpace.Length);
             Array.Clear(nextSpace, 0, nextSpace.Length);
-            //Timer fromTime = new Timer();    //How do we use timer's time to randomize? I know we get a number and mod it, but how?
             Random rand = new Random(mSeed);
             for (int i = 0; i < mSpace.GetLength(0); i++)
             {
@@ -415,6 +419,8 @@ namespace GameOfLife
                     mSpace[i, j] = nextSpace[i, j];
                 }
             }
+
+            mGenerations = 0;
 
             CellCountCheck();
             toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
@@ -724,6 +730,8 @@ namespace GameOfLife
 
         }
 
+
+
         //Button start option
         private void StartToolStripButton_Click_1(object sender, EventArgs e)
         {
@@ -740,6 +748,16 @@ namespace GameOfLife
         private void PauseToolStripButton_Click_1(object sender, EventArgs e)
         {
             timer.Enabled = false;
+        }
+
+        //RunTo option
+        private void runToToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RunTo dlg = new RunTo();
+            dlg.ShowDialog();
+            mRunToGen = dlg.GetRunToInt();
+            timer.Interval = 20;
+            timer.Enabled = true;
         }
 
         //WORK This will be the settings ModalDialog Panel
@@ -965,16 +983,6 @@ namespace GameOfLife
         {
 
         }
-
-        //WORK RunTo still needs work
-        private void runToToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //Run to will have a much faster interval than normal so that the user can just go to whichever position he wants
-            //as fast as possible
-            timer.Interval = 20;
-            timer.Enabled = true;
-        }
-
 
     }
 
