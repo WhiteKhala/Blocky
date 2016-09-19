@@ -56,6 +56,7 @@ namespace GameOfLife
                                "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
             graphicsPanel1.Invalidate();
 
+            //Made this so that timer would have a stop if it's not doing anything
             if (mCellCount == 0)
             {
                 timer.Enabled = false;
@@ -913,75 +914,123 @@ namespace GameOfLife
         //WORK Dropdown menu item open function
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Filter = "All Files|*.*|Cells|*.cells";
-            dlg.FilterIndex = 2;
+            OpenFileDialog OFD = new OpenFileDialog();
 
-            if (DialogResult.OK == dlg.ShowDialog())
+            OFD.Filter = "Text (*.txt)|*.txt|All files (*.*)|*.*";
+            OFD.FilterIndex = 1; OFD.DefaultExt = ".txt";
+
+            int MaxWidth = 0;
+            int MaxHeight = 0;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
             {
-                StreamReader reader = new StreamReader(dlg.FileName);
+                StreamReader Reader = new StreamReader(OFD.FileName);
 
-                // Create a couple variables to calculate the width and height
-                // of the data in the file.
-                int maxWidth = 0;
-                int maxHeight = 0;
-
-                for (int i = 0; i < 0; i++)
+                while (!Reader.EndOfStream)
                 {
+                    string row = Reader.ReadLine();
 
-                }
-                // Iterate through the file once to get its size.
-                while (!reader.EndOfStream)
-                {
-                    // Read one row at a time.
-                    string row = reader.ReadLine();
-
-                    // If the row begins with '!' then it is a comment
-                    // and should be ignored.
-
-                    // If the row is not a comment then it is a row of cells.
-                    // Increment the maxHeight variable for each row read.
-
-                    // Get the length of the current row string
-                    // and adjust the maxWidth variable if necessary.
-                }
-
-                // Resize the current universe and scratchPad
-                // to the width and height of the file calculated above.
-
-                // Reset the file pointer back to the beginning of the file.
-                reader.BaseStream.Seek(0, SeekOrigin.Begin);
-
-                // Iterate through the file again, this time reading in the cells.
-                while (!reader.EndOfStream)
-                {
-                    // Read one row at a time.
-                    string row = reader.ReadLine();
-
-                    // If the row begins with '!' then
-                    // it is a comment and should be ignored.
-
-                    // If the row is not a comment then 
-                    // it is a row of cells and needs to be iterated through.
-                    for (int xPos = 0; xPos < row.Length; xPos++)
+                    if (row.Contains('!'))
                     {
-                        // If row[xPos] is a 'O' (capital O) then
-                        // set the corresponding cell in the universe to alive.
-
-                        // If row[xPos] is a '.' (period) then
-                        // set the corresponding cell in the universe to dead.
+                        continue;
+                    }
+                    else
+                    {
+                        MaxHeight++;
+                        MaxWidth = row.Length;
                     }
                 }
+                gHeight = MaxHeight;
+                gWidth = MaxWidth;
+                Reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
-                // Close the file.
-                reader.Close();
+                int Y = 0;
+
+                while (!Reader.EndOfStream)
+                {
+                    string row = Reader.ReadLine();
+
+                    for (int X = 0; X < row.Length; X++)
+                    {
+                        if (row.Contains('!'))
+                        {
+                            --Y;
+                            break;
+                        }
+                        else
+                        {
+                            if (row[X] == 'O')
+                                mSpace[X, Y] = true;
+                            else if (row[X] == '.')
+                                mSpace[X, Y] = false;
+                        }
+                    }
+                    Y++;
+                }
+                graphicsPanel1.Invalidate();
+                Reader.Close();
             }
         }
 
         //WORK Button open function
         private void openToolStripButton_Click(object sender, EventArgs e)
         {
+            OpenFileDialog OFD = new OpenFileDialog();
 
+            OFD.Filter = "Text (*.txt)|*.txt|All files (*.*)|*.*";
+            OFD.FilterIndex = 1; OFD.DefaultExt = ".txt";
+
+            int MaxWidth = 0;
+            int MaxHeight = 0;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                StreamReader Reader = new StreamReader(OFD.FileName);
+
+                while (!Reader.EndOfStream)
+                {
+                    string row = Reader.ReadLine();
+
+                    if (row.Contains('!'))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        MaxHeight++;
+                        MaxWidth = row.Length;
+                    }
+                }
+                gHeight = MaxHeight;
+                gWidth = MaxWidth;
+                Reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                int Y = 0;
+
+                while (!Reader.EndOfStream)
+                {
+                    string row = Reader.ReadLine();
+
+                    for (int X = 0; X < row.Length; X++)
+                    {
+                        if (row.Contains('!'))
+                        {
+                            --Y;
+                            break;
+                        }
+                        else
+                        {
+                            if (row[X] == 'O')
+                                mSpace[X, Y] = true;
+                            else if (row[X] == '.')
+                                mSpace[X, Y] = false;
+                        }
+                    }
+                    Y++;
+                }
+                graphicsPanel1.Invalidate();
+                Reader.Close();
+            }
         }
 
     }
