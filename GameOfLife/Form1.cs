@@ -13,25 +13,24 @@ namespace GameOfLife
 {
     public partial class Form1 : Form
     {
-        int gWidth = 30, gHeight = 30;
-        //Shove mwidth, height into both spaces
-        bool[,] mSpace, nextSpace;
-        Timer timer = new Timer();
-        //Timer runTo = new Timer();  Might use this
-        int mGenerations = 0;
-        int mCellCount = 0;
-        int mSeed = 0;
+        int gWidth = 30, gHeight = 30; //Width and height ints
+        bool[,] mSpace, nextSpace; //Our universes, mSpace is our current, nextSpace is our future
+        Timer timer = new Timer(); //Our beloved timer, this will hold a lot of our function
+        int mGenerations = 0; //Generationcounter int
+        int mCellCount = 0; //Cellcounter int
+        int mSeed = 0; //Seedcheck int
         int mRunToGen; //This will be for runtodialogbox
         int timerSpeed = 100; //This will set the timer to runto's specifications
-        bool HUD = true;
-        bool mGrid = true;
-        bool NeighborCountValid = true;
-        Random RandomStartSeed = new Random();
-        Color GridColor = Color.Gray;
-        Color Gridx10Color = Color.Black;
-        Color AliveCellColor = Color.DarkGray;
-        Color BackGroundColor = Color.White;
-        string BoundaryType = "Finite";
+        bool HUD = true; //Checks if we want a HUD or not
+        bool mGrid = true; //Checks if we want a grid with those cells
+        bool NeighborCountValid = true; //Checks if we want to see neighborcount on our cells
+        Random RandomStartSeed = new Random(); //Random seed to start with
+        Color GridColor = Color.Gray; //Grid Color
+        Color Gridx10Color = Color.Black; //Grid every 10 lines color
+        Color AliveCellColor = Color.DarkGray; //Alive cell color
+        Color BackGroundColor = Color.White; //Background Color
+        string BoundaryType = "Finite"; //Boundary type (Finite == if you run into a border you can't go past, Toroidal == If you run into a border you loop into other side
+
         public Form1()
         {
             mSpace = new bool[gWidth, gHeight];
@@ -70,13 +69,7 @@ namespace GameOfLife
             }
         }
 
-        //WORK what is this?
-        private void statusStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-        //WORK This will do all the graphics inside of our panel, the MOST essential part of project
+        //This will do all the graphics inside of our panel, the MOST essential part of project
         private void graphicsPanel1_Paint(object sender, PaintEventArgs e)
         {
 
@@ -91,11 +84,10 @@ namespace GameOfLife
                 Gridx10.Color = Color.Empty;
             }
 
-            //WORK Gotta fix the float math
             float mWidth = graphicsPanel1.ClientSize.Width / Convert.ToSingle(mSpace.GetLength(0));
             float mHeight = graphicsPanel1.ClientSize.Height / Convert.ToSingle(mSpace.GetLength(1));
 
-            //WORK Creating our cell rectangles //Make ints into floats!
+            //Creating our cell rectangles
             for (int x = 0; x < mSpace.GetLength(0); x++)
             {
                 for (int y = 0; y < mSpace.GetLength(1); y++)
@@ -129,6 +121,18 @@ namespace GameOfLife
                             Font font = new Font("Arial", 10);
                             Brush CellCountColor = new SolidBrush(Color.Red);
                             e.Graphics.DrawString(" " + NeighborCellCheck(x, y).ToString(), font, CellCountColor, mRectangle.X, mRectangle.Y);
+                        }
+                    }
+
+                    if (HUD)
+                    {
+                        for (float i = 0; i < (float)graphicsPanel1.ClientSize.Height; i += (float)graphicsPanel1.ClientSize.Height / 5)
+                        {
+                            e.Graphics.DrawLine(Gridx10, 0, i, graphicsPanel1.ClientSize.Width, i);
+                        }
+                        for (float i = 0; i < (float)graphicsPanel1.ClientSize.Width; i += (float)graphicsPanel1.ClientSize.Width / 5)
+                        {
+                            e.Graphics.DrawLine(Gridx10, i, 0, i, graphicsPanel1.ClientSize.Height);
                         }
                     }
                     //Work on grid x 10 lines
@@ -983,7 +987,7 @@ namespace GameOfLife
         }
 
 
-        //WORK This will be our dropdown import utility, needs to be worked on
+        //Dropdown inport utility
         private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog OFD = new OpenFileDialog();
