@@ -32,6 +32,7 @@ namespace GameOfLife
         public Color GetLiveCellColor() { return LiveCellColorButton.BackColor; }
         public bool GetisFinite() { return isFinite; }
         public bool GetisToroidal() { return isToroidal; }
+
         //S's
         public void SetTimerInterval(int _timer) { numericUpDown_TimerInterval.Value = _timer; }
         public void SetUWidth(int _uWidth) { numericUpDown_UWidth.Value = _uWidth; }

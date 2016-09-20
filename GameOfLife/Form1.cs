@@ -61,7 +61,7 @@ namespace GameOfLife
                 timer.Enabled = false;
             }
 
-            //This is the runTo function it stops once RunTo reaches the gen we want, and sets speed back to our value
+            //This is the runTo function stopper, it stops once RunTo reaches the gen we want, and sets speed back to our value
             if (mGenerations == mRunToGen)
             {
                 timer.Enabled = false;
@@ -74,7 +74,7 @@ namespace GameOfLife
         {
 
             Pen mEpipen = new Pen(GridColor, 1);
-            Pen Gridx10 = new Pen(Gridx10Color, 2); //Have to install x10 grid
+            Pen Gridx10 = new Pen(Gridx10Color, 2);
             Brush mLiveCellBrush = new SolidBrush(AliveCellColor);
             graphicsPanel1.BackColor = BackGroundColor;
 
@@ -124,6 +124,7 @@ namespace GameOfLife
                         }
                     }
 
+                    //Grid x10 logic
                     if (HUD)
                     {
                         for (float i = 0; i < (float)graphicsPanel1.ClientSize.Height; i += (float)graphicsPanel1.ClientSize.Height / 5)
@@ -135,12 +136,12 @@ namespace GameOfLife
                             e.Graphics.DrawLine(Gridx10, i, 0, i, graphicsPanel1.ClientSize.Height);
                         }
                     }
-                    //Work on grid x 10 lines
 
                     e.Graphics.DrawRectangle(mEpipen, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
                 }
             }
 
+            //Prints our HUD
             if (HUD)
             {
                 Font font = new Font("Arial", 12);
@@ -555,7 +556,7 @@ namespace GameOfLife
                         Count++;
                 }
             }
-        
+
             return Count;
         }
 
@@ -747,7 +748,7 @@ namespace GameOfLife
                 BackGroundColor = dlg.GetBGColor();
                 AliveCellColor = dlg.GetLiveCellColor();
                 GridColor = dlg.GetGridColor();
-                Gridx10Color = dlg.GetGx10Color(); 
+                Gridx10Color = dlg.GetGx10Color();
                 timerSpeed = dlg.GetTimerInterval();
                 timer.Interval = timerSpeed;
                 gWidth = dlg.GetUWidth();
@@ -1047,6 +1048,5 @@ namespace GameOfLife
             }
         }
     }
-
 
 }

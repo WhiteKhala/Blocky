@@ -32,16 +32,19 @@ namespace GameOfLife
             numericUpDown1.Value = RandomNumber;
         }
 
+        //Let's user pik their seed
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             RandomNumber = (int)numericUpDown1.Value;
         }
 
+        //Let's choices be turned over to our main
         private void OK_Button_Click(object sender, EventArgs e)
         {
             AcceptChoices = true;
         }
 
+        //Choices don't get given to main
         private void Cancel_Button_Click(object sender, EventArgs e)
         {
             AcceptChoices = false;

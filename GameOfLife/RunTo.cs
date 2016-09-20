@@ -17,6 +17,7 @@ namespace GameOfLife
             InitializeComponent();
         }
 
+        //Gets the int of the gen we want to run to
         public int GetRunToInt() { return (int)RunToNumericUD.Value; }
 
     }
