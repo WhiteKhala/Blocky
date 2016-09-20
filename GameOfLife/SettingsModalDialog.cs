@@ -43,6 +43,8 @@ namespace GameOfLife
         public void SetisFinite(bool _bool) { FiniteradioButton.Checked = _bool; }
         public void SetisToroidal(bool _bool) { ToroidalradioButton.Checked = _bool; }
 
+
+        //Grid Color setting
         private void GColorButton_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -55,6 +57,8 @@ namespace GameOfLife
             }
         }
 
+
+        //Grid x 10 (every ten lines) setting
         private void Gx10ColorButton_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -67,6 +71,7 @@ namespace GameOfLife
             }
         }
 
+        //Background color setting
         private void BGColorButton_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -78,6 +83,7 @@ namespace GameOfLife
             }
         }
 
+        //Live cell color setting
         private void LiveCellColorButton_Click(object sender, EventArgs e)
         {
             ColorDialog dlg = new ColorDialog();
@@ -90,6 +96,7 @@ namespace GameOfLife
             }
         }
 
+        //This will help break out
         private void button_OK_Click(object sender, EventArgs e)
         {
             AcceptChoices = true;
@@ -100,21 +107,13 @@ namespace GameOfLife
             AcceptChoices = false;
         }
 
-        private void numericUpDown_TimerInterval_ValueChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void numericUpDown_UWidth_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
+        //Finite check setting
         private void FiniteradioButton_CheckedChanged(object sender, EventArgs e)
         {
             isFinite = FiniteradioButton.Checked;
         }
 
+        //Toroidal check setting
         private void ToroidalradioButton_CheckedChanged(object sender, EventArgs e)
         {
             isToroidal = ToroidalradioButton.Checked;

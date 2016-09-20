@@ -83,14 +83,14 @@ namespace GameOfLife
             Pen mEpipen = new Pen(GridColor, 1);
             Pen Gridx10 = new Pen(Gridx10Color, 2); //Have to install x10 grid
             Brush mLiveCellBrush = new SolidBrush(AliveCellColor);
-            graphicsPanel1.BackColor = BackGroundColor; 
+            graphicsPanel1.BackColor = BackGroundColor;
 
             if (mGrid == false)
             {
                 mEpipen.Color = Color.Empty;
                 Gridx10.Color = Color.Empty;
             }
-            
+
             //WORK Gotta fix the float math
             float mWidth = graphicsPanel1.ClientSize.Width / Convert.ToSingle(mSpace.GetLength(0));
             float mHeight = graphicsPanel1.ClientSize.Height / Convert.ToSingle(mSpace.GetLength(1));
@@ -112,7 +112,7 @@ namespace GameOfLife
                         e.Graphics.FillRectangle(mLiveCellBrush, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
 
                     }
-                    
+
 
                     //We're adding a number to see how many neighbors the current cell has
                     if (NeighborCellCheck(x, y) > 0 & NeighborCountValid == true)
@@ -134,35 +134,8 @@ namespace GameOfLife
                     //Work on grid x 10 lines
 
                     e.Graphics.DrawRectangle(mEpipen, mRectangle.X, mRectangle.Y, mRectangle.Width, mRectangle.Height);
-
-                    //if (HUD)
-                    //{
-                    //    int GridWidth = graphicsPanel1.ClientSize.Width;
-                    //    int GridHeight = graphicsPanel1.ClientSize.Height;
-                    //    for (int i = 0; x < GridWidth; i++)
-                    //    {
-                    //        for (int j = 0; j < GridHeight; j += 10)
-                    //        {
-                    //            if (i == 10)
-                    //            {
-                    //                e.Graphics.DrawLine(Gridx10, mRectangle.X, 0, mRectangle.X, 0);
-                    //                continue;
-                    //            }
-
-                    //            if (j == 10)
-                    //            {
-                    //                e.Graphics.DrawLine(Gridx10, 0, j, 0, GridHeight);
-                    //                continue;
-                    //            }
-                    //        }
-                    //    }
-                    //}
                 }
             }
-
-
-
-
 
             if (HUD)
             {
@@ -175,7 +148,7 @@ namespace GameOfLife
                 Rectangle shrekt = new Rectangle(0, graphicsPanel1.ClientSize.Height - 73, 300, 100);
                 string hOut = "Generations: " + mGenerations.ToString() + "\n";
                 hOut += "Cell Count: " + mCellCount + "\n";
-                hOut += "Boundary Type: " + BoundaryType + "\n"; 
+                hOut += "Boundary Type: " + BoundaryType + "\n";
                 hOut += "Universe Size: {Width =" + gWidth + ", Height=" + gHeight + "}";
 
                 e.Graphics.DrawString(hOut, font, Brushes.Blue, shrekt);
@@ -185,11 +158,7 @@ namespace GameOfLife
 
         }
 
-        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
-        {
-
-        }
-
+        //Activates/deactivates cells on mouseclick
         private void graphicsPanel1_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -221,27 +190,17 @@ namespace GameOfLife
             }
         }
 
+        //Shows developer contact information
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AboutBox1 blg = new AboutBox1();
             blg.ShowDialog();
         }
 
+        //Closes our program
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        //WORK Unsure about this method, once I work on it, we'll see
-        private void toolStripStatusLabelGen_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        //WORK This will be our dropdown import utility, needs to be worked on
-        private void importToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         //This will show whoever clicks on it, the developer and his contact info
@@ -275,17 +234,6 @@ namespace GameOfLife
             neighborCountVisibleToolStripMenuItem.Checked = NeighborCountValid;
 
             graphicsPanel1.Invalidate();
-        }
-
-        //WORK Unsure for now gotta check with this one does once I give it something
-        private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-        //WORK Random needs work
-        private void randomizeToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-
         }
 
         //Randomizes the universe with our current seed
@@ -340,48 +288,51 @@ namespace GameOfLife
 
             SeedDialog dlg = new SeedDialog();
             dlg.ShowDialog();
-            mSeed = dlg.GetRandomNumber();
-
-            Array.Clear(mSpace, 0, mSpace.Length);
-            Array.Clear(nextSpace, 0, nextSpace.Length);
-            Random rand = new Random(mSeed);
-            for (int i = 0; i < mSpace.GetLength(0); i++)
+            if (dlg.GetChoice() == true)
             {
-                for (int j = 0; j < mSpace.GetLength(1); j++)
+                mSeed = dlg.GetRandomNumber();
+
+                Array.Clear(mSpace, 0, mSpace.Length);
+                Array.Clear(nextSpace, 0, nextSpace.Length);
+                Random rand = new Random(mSeed);
+                for (int i = 0; i < mSpace.GetLength(0); i++)
                 {
-                    int x = rand.Next(0, 3);
-                    if (x == 0)
+                    for (int j = 0; j < mSpace.GetLength(1); j++)
                     {
-                        nextSpace[i, j] = true;
-                    }
+                        int x = rand.Next(0, 3);
+                        if (x == 0)
+                        {
+                            nextSpace[i, j] = true;
+                        }
 
-                    else if (x == 1)
-                    {
-                        nextSpace[i, j] = false;
-                    }
+                        else if (x == 1)
+                        {
+                            nextSpace[i, j] = false;
+                        }
 
-                    else if (x == 2)
-                    {
-                        nextSpace[i, j] = false;
-                    }
+                        else if (x == 2)
+                        {
+                            nextSpace[i, j] = false;
+                        }
 
+                    }
                 }
-            }
-            for (int i = 0; i < mSpace.GetLength(0); i++)
-            {
-                for (int j = 0; j < mSpace.GetLength(1); j++)
+                for (int i = 0; i < mSpace.GetLength(0); i++)
                 {
-                    mSpace[i, j] = nextSpace[i, j];
+                    for (int j = 0; j < mSpace.GetLength(1); j++)
+                    {
+                        mSpace[i, j] = nextSpace[i, j];
+                    }
                 }
+
+                mGenerations = 0;
+                CellCountCheck();
+                CellCountCheck();
+                toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+                "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
+
+                graphicsPanel1.Invalidate();
             }
-
-            mGenerations = 0;
-            CellCountCheck();
-            CellCountCheck();
-            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
-            "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
-
-            graphicsPanel1.Invalidate();
         }
 
         //Randomizes our universe
@@ -671,6 +622,7 @@ namespace GameOfLife
             }
         }
 
+        //Cleans everything so we can start from scratch
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mGenerations = 0;
@@ -682,6 +634,7 @@ namespace GameOfLife
             graphicsPanel1.Invalidate();
         }
 
+        //Cleans everything so we can start from scratch
         private void newToolStripButton_Click(object sender, EventArgs e)
         {
 
@@ -694,6 +647,13 @@ namespace GameOfLife
             graphicsPanel1.Invalidate();
         }
 
+        //This is the pause button
+        private void PauseToolStripButton_Click(object sender, EventArgs e)
+        {
+            timer.Enabled = false;
+        }
+
+        //Next button - rolls over 1 generation
         private void NextToolStripButton_Click(object sender, EventArgs e)
         {
             mGenerations++;
@@ -705,13 +665,7 @@ namespace GameOfLife
                    "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
 
         }
-
-        //This is the pause button
-        private void PauseToolStripButton_Click(object sender, EventArgs e)
-        {
-            timer.Enabled = false;
-        }
-
+        //Next toolstrip button - rolls over 1 generation
         private void nextToolStripMenuItem_Click(object sender, EventArgs e)
         {
             mGenerations++;
@@ -730,8 +684,6 @@ namespace GameOfLife
             timer.Enabled = true;
 
         }
-
-
 
         //Button start option
         private void StartToolStripButton_Click_1(object sender, EventArgs e)
@@ -761,7 +713,7 @@ namespace GameOfLife
             timer.Enabled = true;
         }
 
-        //WORK This will be the settings ModalDialog Panel
+        //This will be the settings ModalDialog Panel
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SettingsModalDialog dlg = new SettingsModalDialog();
@@ -826,35 +778,24 @@ namespace GameOfLife
                     StreamWriter writer = new StreamWriter(dlg.FileName);
                     writer.WriteLine("!Written on Emanuel Antablin's GameOfLife");
 
-                    // Iterate through the universe one row at a time.
                     for (int y = 0; y < mSpace.GetLength(0); y++)
                     {
-                        // Create a string to represent the current row.
                         String currentRow = string.Empty;
 
-                        // Iterate through the current row one cell at a time.
                         for (int x = 0; x < mSpace.GetLength(1); x++)
                         {
                             if (mSpace[x, y] == true)
                             {
                                 currentRow += 'O';
                             }
-                            // If the universe[x,y] is alive then append 'O' (capital O)
-                            // to the row string.
                             else if (mSpace[x, y] == false)
                             {
                                 currentRow += '.';
                             }
-                            // Else if the universe[x,y] is dead then append '.' (period)
-                            // to the row string.
                         }
 
                         writer.WriteLine(currentRow);
-                        // Once the current row has been read through and the 
-                        // string constructed then write it to the file using WriteLine.
                     }
-
-                    // After all rows and columns have been written then close the file.
                     writer.Close();
                 }
             }
@@ -872,52 +813,46 @@ namespace GameOfLife
             {
                 StreamWriter writer = new StreamWriter(dlg.FileName);
 
-                // Write any comments you want to include first.
-                // Prefix all comment strings with an exclamation point.
-                // Use WriteLine to write the strings to the file. 
-                // It appends a CRLF for you.
                 writer.WriteLine("!Written on Emanuel Antablin's GameOfLife");
 
-                // Iterate through the universe one row at a time.
                 for (int y = 0; y < mSpace.GetLength(0); y++)
                 {
-                    // Create a string to represent the current row.
                     String currentRow = string.Empty;
 
-                    // Iterate through the current row one cell at a time.
                     for (int x = 0; x < mSpace.GetLength(1); x++)
                     {
                         if (mSpace[x, y] == true)
                         {
                             currentRow += 'O';
                         }
-                        // If the universe[x,y] is alive then append 'O' (capital O)
-                        // to the row string.
                         else if (mSpace[x, y] == false)
                         {
                             currentRow += '.';
                         }
-                        // Else if the universe[x,y] is dead then append '.' (period)
-                        // to the row string.
                     }
 
                     writer.WriteLine(currentRow);
-                    // Once the current row has been read through and the 
-                    // string constructed then write it to the file using WriteLine.
                 }
 
-                // After all rows and columns have been written then close the file.
                 writer.Close();
             }
         }
 
-        //WORK Dropdown menu item open function
+        //Dropdown menu item open function
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            mGenerations = 0;
+            Array.Clear(mSpace, 0, mSpace.Length);
+            Array.Clear(nextSpace, 0, nextSpace.Length);
+            CellCountCheck();
+            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+            "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
+            graphicsPanel1.Invalidate();
+
             OpenFileDialog OFD = new OpenFileDialog();
 
-            OFD.Filter = "Text (*.txt)|*.txt|All files (*.*)|*.*";
-            OFD.FilterIndex = 1; OFD.DefaultExt = ".txt";
+            OFD.Filter = "Text (*.cells)|*.cells|All files (*.*)|*.*";
+            OFD.FilterIndex = 1; OFD.DefaultExt = ".cells";
 
             int MaxWidth = 0;
             int MaxHeight = 0;
@@ -942,6 +877,8 @@ namespace GameOfLife
                 }
                 gHeight = MaxHeight;
                 gWidth = MaxWidth;
+                mSpace = new bool[gWidth, gHeight];
+                nextSpace = new bool[gWidth, gHeight];
                 Reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
                 int Y = 0;
@@ -967,18 +904,92 @@ namespace GameOfLife
                     }
                     Y++;
                 }
+                CellCountCheck();
                 graphicsPanel1.Invalidate();
                 Reader.Close();
             }
         }
 
-        //WORK Button open function
+        //Button open function
         private void openToolStripButton_Click(object sender, EventArgs e)
+        {
+            mGenerations = 0;
+            Array.Clear(mSpace, 0, mSpace.Length);
+            Array.Clear(nextSpace, 0, nextSpace.Length);
+            CellCountCheck();
+            toolStripStatusLabelGen.Text = "Generations: " + mGenerations.ToString() + "    Cells: " + mCellCount +
+            "      Seed: " + mSeed + "       Boundary: " + BoundaryType;
+            graphicsPanel1.Invalidate();
+
+            OpenFileDialog OFD = new OpenFileDialog();
+
+            OFD.Filter = "Text (*.cells)|*.cells|All files (*.*)|*.*";
+            OFD.FilterIndex = 1; OFD.DefaultExt = ".cells";
+
+            int MaxWidth = 0;
+            int MaxHeight = 0;
+
+            if (OFD.ShowDialog() == DialogResult.OK)
+            {
+                StreamReader Reader = new StreamReader(OFD.FileName);
+
+                while (!Reader.EndOfStream)
+                {
+                    string row = Reader.ReadLine();
+
+                    if (row.Contains('!'))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        MaxHeight++;
+                        MaxWidth = row.Length;
+                    }
+                }
+                gHeight = MaxHeight;
+                gWidth = MaxWidth;
+                mSpace = new bool[gWidth, gHeight];
+                nextSpace = new bool[gWidth, gHeight];
+                Reader.BaseStream.Seek(0, SeekOrigin.Begin);
+
+                int Y = 0;
+
+                while (!Reader.EndOfStream)
+                {
+                    string row = Reader.ReadLine();
+
+                    for (int X = 0; X < row.Length; X++)
+                    {
+                        if (row.Contains('!'))
+                        {
+                            --Y;
+                            break;
+                        }
+                        else
+                        {
+                            if (row[X] == 'O')
+                                mSpace[X, Y] = true;
+                            else if (row[X] == '.')
+                                mSpace[X, Y] = false;
+                        }
+                    }
+                    Y++;
+                }
+                CellCountCheck();
+                graphicsPanel1.Invalidate();
+                Reader.Close();
+            }
+        }
+
+
+        //WORK This will be our dropdown import utility, needs to be worked on
+        private void importToolStripMenuItem_Click(object sender, EventArgs e)
         {
             OpenFileDialog OFD = new OpenFileDialog();
 
-            OFD.Filter = "Text (*.txt)|*.txt|All files (*.*)|*.*";
-            OFD.FilterIndex = 1; OFD.DefaultExt = ".txt";
+            OFD.Filter = "Text (*.cells)|*.cells|All files (*.*)|*.*";
+            OFD.FilterIndex = 1; OFD.DefaultExt = ".cells";
 
             int MaxWidth = 0;
             int MaxHeight = 0;
@@ -1001,8 +1012,6 @@ namespace GameOfLife
                         MaxWidth = row.Length;
                     }
                 }
-                gHeight = MaxHeight;
-                gWidth = MaxWidth;
                 Reader.BaseStream.Seek(0, SeekOrigin.Begin);
 
                 int Y = 0;
@@ -1028,11 +1037,11 @@ namespace GameOfLife
                     }
                     Y++;
                 }
+                CellCountCheck();
                 graphicsPanel1.Invalidate();
                 Reader.Close();
             }
         }
-
     }
 
 

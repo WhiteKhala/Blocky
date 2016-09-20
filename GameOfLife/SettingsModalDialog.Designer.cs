@@ -163,7 +163,6 @@
             this.numericUpDown_UWidth.Name = "numericUpDown_UWidth";
             this.numericUpDown_UWidth.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown_UWidth.TabIndex = 4;
-            this.numericUpDown_UWidth.ValueChanged += new System.EventHandler(this.numericUpDown_UWidth_ValueChanged);
             // 
             // numericUpDown_TimerInterval
             // 
@@ -176,7 +175,6 @@
             this.numericUpDown_TimerInterval.Name = "numericUpDown_TimerInterval";
             this.numericUpDown_TimerInterval.Size = new System.Drawing.Size(120, 20);
             this.numericUpDown_TimerInterval.TabIndex = 3;
-            this.numericUpDown_TimerInterval.ValueChanged += new System.EventHandler(this.numericUpDown_TimerInterval_ValueChanged);
             // 
             // label_UniverseHeight
             // 

@@ -53,7 +53,6 @@
             this.fromTimeToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.FromCurrentSeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fromNewSeedToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.customizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.settingsToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -244,7 +243,6 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.randomizeToolStripMenuItem1,
-            this.customizeToolStripMenuItem,
             this.toolStripSeparator8,
             this.optionsToolStripMenuItem,
             this.settingsToolStripMenuItem1});
@@ -259,9 +257,8 @@
             this.FromCurrentSeedToolStripMenuItem,
             this.fromNewSeedToolStripMenuItem1});
             this.randomizeToolStripMenuItem1.Name = "randomizeToolStripMenuItem1";
-            this.randomizeToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
+            this.randomizeToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.randomizeToolStripMenuItem1.Text = "Randomize";
-            this.randomizeToolStripMenuItem1.Click += new System.EventHandler(this.randomizeToolStripMenuItem1_Click);
             // 
             // fromTimeToolStripMenuItem1
             // 
@@ -284,21 +281,15 @@
             this.fromNewSeedToolStripMenuItem1.Text = "From New Seed";
             this.fromNewSeedToolStripMenuItem1.Click += new System.EventHandler(this.fromNewSeedToolStripMenuItem1_Click);
             // 
-            // customizeToolStripMenuItem
-            // 
-            this.customizeToolStripMenuItem.Name = "customizeToolStripMenuItem";
-            this.customizeToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
-            this.customizeToolStripMenuItem.Text = "&Customize";
-            // 
             // toolStripSeparator8
             // 
             this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(130, 6);
+            this.toolStripSeparator8.Size = new System.Drawing.Size(149, 6);
             // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.optionsToolStripMenuItem.Text = "&Options";
             this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
@@ -308,7 +299,7 @@
             this.resetToolStripMenuItem1,
             this.reloadToolStripMenuItem1});
             this.settingsToolStripMenuItem1.Name = "settingsToolStripMenuItem1";
-            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(133, 22);
+            this.settingsToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.settingsToolStripMenuItem1.Text = "Settings";
             // 
             // resetToolStripMenuItem1
@@ -426,7 +417,6 @@
             this.toolStripStatusLabelGen.Name = "toolStripStatusLabelGen";
             this.toolStripStatusLabelGen.Size = new System.Drawing.Size(118, 17);
             this.toolStripStatusLabelGen.Text = "toolStripStatusLabel1";
-            this.toolStripStatusLabelGen.Click += new System.EventHandler(this.toolStripStatusLabelGen_Click);
             // 
             // graphicsPanel1
             // 
@@ -473,7 +463,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem customizeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;

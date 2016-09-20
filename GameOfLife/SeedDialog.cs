@@ -13,17 +13,18 @@ namespace GameOfLife
     public partial class SeedDialog : Form
     {
         int RandomNumber;
+        bool AcceptChoices = false;
 
         public SeedDialog()
         {
             InitializeComponent();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
+        //G's
+        public int GetRandomNumber() { return RandomNumber; }
+        public bool GetChoice() { return AcceptChoices; }
 
-        }
-
+        //Our randomizer! Works with a click of a button
         private void RandomizeButton_Click(object sender, EventArgs e)
         {
             Random rand = new Random();
@@ -31,24 +32,19 @@ namespace GameOfLife
             numericUpDown1.Value = RandomNumber;
         }
 
-        public int GetRandomNumber()
-        {
-            return RandomNumber;
-        }
-
-        private void OK_Button_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             RandomNumber = (int)numericUpDown1.Value;
         }
 
+        private void OK_Button_Click(object sender, EventArgs e)
+        {
+            AcceptChoices = true;
+        }
+
         private void Cancel_Button_Click(object sender, EventArgs e)
         {
-
+            AcceptChoices = false;
         }
     }
 }
